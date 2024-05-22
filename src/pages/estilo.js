@@ -1,4 +1,13 @@
+import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
+
+
 export const estilo = {
+    botao: {
+
+    },
+    textoBotao: {
+
+    },
     button: {
     backgroundColor: 'transparent',
       padding: 10,

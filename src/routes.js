@@ -6,8 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Profile from './pages/Profile';
-import Notifications from './pages/Notifications';
+import Servicos from './pages/Servicos';
+import Agenda from './pages/Agenda';
 import { NavigationContainer } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
@@ -17,6 +17,7 @@ function MyTab(){
   return (
     <Tab.Navigator>
       <Tab.Screen name="Inicio" component={Home} options={{headerShown : false}}/>
+      <Tab.Screen name="Serviços" component={Servicos} options={{headerShown : false}}/>
     </Tab.Navigator>
   );
 }
