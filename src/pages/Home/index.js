@@ -5,7 +5,9 @@ import { Button, ImageBackground } from 'react-native-web';
 import { estilo } from './../estilo';
 
 
-const imgBackground = '../../assets/fundoBanner.png'
+const banner = '../../assets/fundoBanner.png'
+
+const servico = '../../assets/fundoServico.png'
 
 const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
   <TouchableOpacity onPress={onPress} style={estilo.btnAgenda}>
@@ -49,10 +51,11 @@ return (
       </View>
 
       {/* banner */}
-      <ImageBackground source={require(imgBackground)} style={{width: '100%', flex: 1}}>
-      <View style={{marginLeft: 20, marginTop: 50}}>
-        <Text style={{fontSize: 44, color: 'white'}}>Royal barber,<br/>a <Text style={{color: '#FF6D24'}}>realeza</Text>.</Text>
-        <Text style={{fontSize: 27, color: 'white', marginTop: 20}}>Dê um toque<br/>gourmet ao seu<br/>visual, <Text style={{color: '#FD7E14'}}>seja a realeza</Text>.</Text>
+      
+      <View style={{}}>
+      <ImageBackground source={require(banner)} style={{width: '100%', flex: 1, height: '100%'}}>
+        <Text style={{fontSize: 44, color: 'white', marginLeft: 20, marginTop: 50}}>Royal barber,<br/>a <Text style={{color: '#FF6D24'}}>realeza</Text>.</Text>
+        <Text style={{fontSize: 27, color: 'white', marginLeft: 20, marginTop: 20}}>Dê um toque<br/>gourmet ao seu<br/>visual, <Text style={{color: '#FD7E14'}}>seja a realeza</Text>.</Text>
         <CustomButton2 title='NOSSOS SERVIÇOS' onPress={() => navigation.navigate('Serviços')} 
         buttonStyle={{
           width: 150,
@@ -63,7 +66,8 @@ return (
           borderRadius: 20,
           alignSelf: 'flex-end',
           marginTop: 90,
-          marginRight: 30
+          marginRight: 30,
+          marginBottom: 50
         }}
 
         textStyle={{
@@ -71,8 +75,16 @@ return (
           fontWeight: 600,
         }}
         />
+        </ImageBackground>
       </View>
+
+      {/* Serviços */}
+      <View style={{backgroundColor: 'black', height: 634, position: 'relative', top: -20, borderRadius: 24, alignItems: 'center'}}>
+      <ImageBackground source={require(servico)} style={{width: 375}}>
+        <Text>Serviços & Produtos</Text>
       </ImageBackground>
+      </View>
+      
     </SafeAreaView>
   </ScrollView>
   );
