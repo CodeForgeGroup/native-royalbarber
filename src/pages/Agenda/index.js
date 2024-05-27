@@ -7,7 +7,7 @@ export default function Perfil(){
 return (
     <View style={styles.container}>
         <Text style={styles.text}>
-            Perfil
+            Agenda
         </Text>
     </View>
     );
@@ -21,11 +21,12 @@ const styles = StyleSheet.create({
         // backgroundColor:'#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'green',
+        backgroundColor: '#333',
     },
 
     text:{
         fontSize:25,
         fontWeight:'bold',
+        color: 'white'
     },
 })

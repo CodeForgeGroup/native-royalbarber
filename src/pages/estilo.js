@@ -58,7 +58,6 @@ export const estilo = {
       textAgenda: {
         fontSize: 14,
         fontWeight: 600, 
-        fontFamily: 'Roboto',
         color: 'white',
       },
       logo: {
@@ -89,7 +88,26 @@ export const estilo = {
         color: 'white',
         fontWeight: 600,
         
-      }
+      },
+      carouselItem: {
+        // Estilo para o item do carousel
+        backgroundColor: 'lightblue',
+        borderRadius: 10,
+        height: 200,
+        padding: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      carouselTitle: {
+        // Estilo para o título do item do carousel
+        fontSize: 20,
+        color: 'white',
+      },
+      carouselText: {
+        // Estilo para o texto do item do carousel
+        fontSize: 16,
+        color: 'white',
+      },
 
 };
 

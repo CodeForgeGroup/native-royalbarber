@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Servicos from './pages/Servicos';
 import Agenda from './pages/Agenda';
+import Perfil from './pages/Perfil';
 import { NavigationContainer } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
@@ -15,9 +16,11 @@ const Tab = createBottomTabNavigator();
 
 function MyTab(){
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Inicio" component={Home} options={{headerShown : false}}/>
-      <Tab.Screen name="Serviços" component={Servicos} options={{headerShown : false}}/>
+    <Tab.Navigator screenOptions={{ tabBarStyle: { backgroundColor: '#FF6D24', }, headerShown : false, tabBarActiveTintColor: '#575656', tabBarInactiveTintColor: 'white'}}>
+      <Tab.Screen name="Inicio" component={Home} />
+      <Tab.Screen name="Serviços" component={Servicos} />
+      <Tab.Screen name="Agenda" component={Agenda} />
+      <Tab.Screen name="Perfil" component={Perfil} />
     </Tab.Navigator>
   );
 }
