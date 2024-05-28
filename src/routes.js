@@ -16,7 +16,23 @@ const Tab = createBottomTabNavigator();
 
 function MyTab(){
   return (
-    <Tab.Navigator screenOptions={{ tabBarStyle: { backgroundColor: '#FF6D24', }, headerShown : false, tabBarActiveTintColor: '#575656', tabBarInactiveTintColor: 'white'}}>
+    <Tab.Navigator 
+      screenOptions={{ 
+        tabBarStyle: 
+        { 
+          backgroundColor: '#FF6D24', 
+          padding: 5,
+          height: 63
+        },
+        tabBarLabelStyle: {
+          fontSize: 14,
+          
+        },
+        headerShown : false,
+        tabBarActiveTintColor: '#575656',
+        tabBarInactiveTintColor: 'white',
+
+     }}>
       <Tab.Screen name="Inicio" component={Home} />
       <Tab.Screen name="Serviços" component={Servicos} />
       <Tab.Screen name="Agenda" component={Agenda} />
