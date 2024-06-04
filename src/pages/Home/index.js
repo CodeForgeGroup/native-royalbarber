@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, ImageBackground } from 'react-native';
 import { estilo } from './../estilo';
-import { Marquee } from '@animatereactnative/marquee';
 
 const banner = '../../assets/fundoBanner.png'
 

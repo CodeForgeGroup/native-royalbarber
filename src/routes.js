@@ -14,6 +14,14 @@ import { NavigationContainer } from '@react-navigation/native';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+function PerfilStack() {
+  return (
+    <Stack.Navigator initialRouteName='Home'>
+      <Stack.Screen name="Perfil" component={Perfil} options={{ headerShown: true, title: 'Meu Perfil' }} />
+    </Stack.Navigator>
+  );
+}
+
 function MyTab(){
   return (
     <Tab.Navigator 
@@ -36,7 +44,7 @@ function MyTab(){
       <Tab.Screen name="Inicio" component={Home} />
       <Tab.Screen name="Serviços" component={Servicos} />
       <Tab.Screen name="Agenda" component={Agenda} />
-      <Tab.Screen name="Perfil" component={Perfil} />
+      <Tab.Screen name="Perfil" component={PerfilStack} options={{}} />
     </Tab.Navigator>
   );
 }
