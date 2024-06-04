@@ -36,7 +36,7 @@ function MyTab(){
       <Tab.Screen name="Inicio" component={Home} />
       <Tab.Screen name="Serviços" component={Servicos} />
       <Tab.Screen name="Agenda" component={Agenda} />
-      <Tab.Screen name="Perfil" component={Perfil} />
+      <Tab.Screen name="Perfil" component={Perfil} options={{headerShown : true}} />
     </Tab.Navigator>
   );
 }
