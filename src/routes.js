@@ -27,17 +27,24 @@ function MyTab() {
         },
         tabBarLabelStyle: {
           fontSize: 14,
-
+          fontWeight: 500
         },
         headerShown: false,
         tabBarActiveTintColor: '#575656',
         tabBarInactiveTintColor: 'white',
-
+        headerStyle: {
+          backgroundColor: '#1B1B1B',
+          
+        },
+        headerTitleStyle: {
+          color: 'white',
+          fontWeight: 600,
+        },
       }}>
       <Tab.Screen name="Inicio" component={Home} />
       <Tab.Screen name="Serviços" component={Servicos} />
       <Tab.Screen name="Agenda" component={Agenda} />
-      <Tab.Screen name="Perfil" component={Perfil} options={{ headerShown: true }} />
+      <Tab.Screen name="Perfil" component={Perfil} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 }
@@ -52,8 +59,7 @@ function Servico() {
         height: 63
       },
       tabBarLabelStyle: {
-        fontSize: 14,
-
+        color: 'red'
       },
       headerShown: false,
       tabBarActiveTintColor: '#575656',

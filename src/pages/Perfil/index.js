@@ -1,12 +1,35 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, ImageBackground, TextInput } from 'react-native';
-
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, ImageBackground, TextInput, Linking, Alert, Platform, span } from 'react-native';
+import { estilo } from '../estilo'
 const fundo = '../../assets/fundoPerfil.png'
 
+const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
+    <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>
+        <Text style={[estilo.textoBotao, textStyle]}>{title}</Text>
+    </TouchableOpacity>
+);
+
 export default function App() {
+
+    const handlePress = async () => {
+        const url = 'https://www.facebook.com/';
+
+        try {
+            const supported = await Linking.canOpenURL(url);
+            if (supported) {
+                await Linking.openURL(url);
+            } else {
+                Alert.alert(`Não foi possível abrir o URL: ${url}`);
+            }
+        } catch (err) {
+            console.error('Ocorreu um erro ao tentar abrir o URL', err);
+        }
+    };
+
     return (
-        <ScrollView contentContainerStyle={{ flex: 1 }}>
-            <ImageBackground source={require(fundo)} style={{ flex: 1, alignItems: 'center' }}>
+        <ScrollView contentContainerStyle={{ flex: 1, backgroundColor: '#343434', borderWidth: 0 }}>
+
+            <ImageBackground source={require(fundo)} style={{ alignItems: 'center', height: 'auto', borderWidth: 0 }}>
 
                 <Image source={require('../../assets/fundoFoto.png')} />
                 <Image source={require('../../assets/fotoPerfil.png')} style={{ position: 'absolute', top: 30 }} />
@@ -15,7 +38,7 @@ export default function App() {
 
                 <View style={{ alignSelf: 'flex-start', marginLeft: 24, marginTop: 25 }}>
                     <Text style={{ fontSize: 18, fontWeight: 600, color: 'white', marginLeft: 15, marginBottom: 3 }}>EMAIL</Text>
-                    <TextInput
+                    <Text
                         style={{
                             fontSize: 16,
                             fontWeight: 600,
@@ -28,14 +51,14 @@ export default function App() {
                             height: 40,
                             borderRadius: 20,
                         }}
-                        placeholder='example@email.com'
-                    />
+
+                    >example@email.com</Text>
                 </View>
 
                 <View style={{ alignSelf: 'flex-start', marginLeft: 24, marginTop: 25 }}>
                     <Text style={{ fontSize: 18, fontWeight: 600, color: 'white', marginLeft: 15, marginBottom: 3 }}>SENHA</Text>
-                    <TextInput
-                    
+                    <Text
+
                         style={{
                             fontSize: 16,
                             fontWeight: 600,
@@ -48,8 +71,8 @@ export default function App() {
                             height: 40,
                             borderRadius: 20,
                         }}
-                        placeholder='******'
-                    />
+
+                    >***********</Text>
                 </View>
 
                 <View style={{ alignSelf: 'flex-start', marginLeft: 24, marginTop: 25 }}>
@@ -67,12 +90,112 @@ export default function App() {
                             height: 40,
                             borderRadius: 20,
                         }}
-                        placeholder='(11) 91336-4872'
-                    >Email</Text>
+                    >(11) 91336-4872</Text>
                 </View>
 
-
+                <CustomButton
+                    onPress={handlePress}
+                    title="ALTERAR DADOS"
+                    buttonStyle={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: '#FF6D24',
+                        width: 155,
+                        height: 40,
+                        borderRadius: 20,
+                        marginTop: 55,
+                        marginBottom: 55
+                    }}
+                    textStyle={{
+                        fontSize: 16,
+                        fontWeight: 600,
+                        color: 'white'
+                    }}
+                />
             </ImageBackground>
+
+            <View style={{ alignItems: 'center', backgroundColor: '#343434', borderWidth: 0 }}>
+                <Text style={{ marginTop: 51, fontSize: 26, fontWeight: 600, color: 'white' }}>MEUS AGENDAMENTOS</Text>
+                <span style={{ backgroundColor: '#FF6D24', width: 220, height: 2, marginTop: 7, marginBottom: 25 }}></span>
+
+                <View style={{ flexDirection: 'row', gap: 15 }}>
+
+                    <View style={{ alignItems: 'center', backgroundColor: '#1B1B1B', borderRadius: 10, width: 148, height: 182, justifyContent: 'space-evenly' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Horário</Text>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>16:00</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Serviço</Text>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Cabelo</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Data</Text>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>14/02</Text>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Func.</Text>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Alexandre</Text>
+                        </View>
+
+                        <CustomButton
+                            title="CANCELAR"
+                            buttonStyle={{
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '75%',
+                                heigth: 50,
+                                backgroundColor: '#FF6D24',
+                                borderRadius: 20
+                            }}
+                            textStyle={{
+                                fontSize: 14,
+                                fontWeight: 'bold',
+                                color: 'white'
+                            }}
+                        />
+                    </View>
+
+                    <View style={{ alignItems: 'center', backgroundColor: '#1B1B1B', borderRadius: 10, width: 148, height: 182, justifyContent: 'space-evenly', marginBottom: 60 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Horário</Text>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>18:00</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Serviço</Text>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Barba</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Data</Text>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>14/02</Text>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Func.</Text>
+                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Ronaldo</Text>
+                        </View>
+                        <CustomButton
+                            title="CANCELAR"
+                            buttonStyle={{
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '75%',
+                                heigth: 50,
+                                backgroundColor: '#FF6D24',
+                                borderRadius: 20
+                            }}
+                            textStyle={{
+                                fontSize: 14,
+                                fontWeight: 'bold',
+                                color: 'white'
+                            }}
+                        />
+                    </View>
+                </View>
+
+            </View>
+
         </ScrollView>
 
     );
