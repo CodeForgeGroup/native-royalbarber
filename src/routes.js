@@ -34,7 +34,7 @@ function MyTab() {
         tabBarInactiveTintColor: 'white',
         headerStyle: {
           backgroundColor: '#1B1B1B',
-          
+
         },
         headerTitleStyle: {
           color: 'white',
@@ -51,6 +51,9 @@ function MyTab() {
 
 function Servico() {
   return (
+
+
+
     <Tab.Navigator screenOptions={{
       tabBarStyle:
       {
@@ -69,7 +72,11 @@ function Servico() {
 
       <Tab.Screen name='Main' component={MyTab} options={{ headerShown: false }} />
 
+      
+      
     </Tab.Navigator>
+
+
   );
 }
 
@@ -78,7 +85,7 @@ export default function Routes() {
     <Stack.Navigator >
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="Inicio" component={MyTab} options={{ headerShown: false }} />
-      <Stack.Screen name="Corte na máquina" component={Servico} options={{ headerShown: true }} />
+      {/* <Stack.Screen name="Corte na máquina" component={Servico} options={{ headerShown: true }} /> */}
     </Stack.Navigator>
   );
 }
