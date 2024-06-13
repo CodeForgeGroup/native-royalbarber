@@ -33,6 +33,7 @@ return (
         <TextInput
         style={{ fontWeight:'bold', color:'white', height: 40, width: 300, borderColor: 'transparent', borderTopColor:'transparent', borderWidth: 1, marginTop: 20, paddingHorizontal: 10, borderBlockColor: '#ff6d24' }}
         placeholder="Email"
+        editable={false}
        />
         <TextInput
         secureTextEntry={true}

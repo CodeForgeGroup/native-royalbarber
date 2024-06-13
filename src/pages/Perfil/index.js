@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, ImageBackground, TextInput, Linking, Alert, Platform, span } from 'react-native';
 import { estilo } from '../estilo'
 const fundo = '../../assets/fundoPerfil.png'
@@ -11,20 +11,14 @@ const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
 
 export default function App() {
 
-    const handlePress = async () => {
-        const url = 'https://www.facebook.com/';
+    const [isFocused, setIsFocused] = useState(false);
 
-        try {
-            const supported = await Linking.canOpenURL(url);
-            if (supported) {
-                await Linking.openURL(url);
-            } else {
-                Alert.alert(`Não foi possível abrir o URL: ${url}`);
-            }
-        } catch (err) {
-            console.error('Ocorreu um erro ao tentar abrir o URL', err);
-        }
+    const [isEditable, setIsEditable] = useState(false);
+        
+    const handleToggleEdit = () => {
+        setIsEditable(!isEditable);
     };
+
 
     return (
         <ScrollView contentContainerStyle={{ flex: 1, backgroundColor: '#343434', borderWidth: 0 }}>
@@ -38,26 +32,27 @@ export default function App() {
 
                 <View style={{ alignSelf: 'flex-start', marginLeft: 24, marginTop: 25 }}>
                     <Text style={{ fontSize: 18, fontWeight: 600, color: 'white', marginLeft: 15, marginBottom: 3 }}>EMAIL</Text>
-                    <Text
+                    <TextInput
                         style={{
                             fontSize: 16,
                             fontWeight: 600,
                             color: 'white',
                             padding: 10,
                             paddingLeft: 25,
-                            backgroundColor: '#1B1B1B',
+                            backgroundColor: isEditable ? '#FF6D24' : '#1B1B1B',
                             alignSelf: 'flex-start',
                             width: 330,
                             height: 40,
                             borderRadius: 20,
                         }}
-
-                    >example@email.com</Text>
+                        placeholder='example@email.com'
+                        editable={isEditable}
+                    />
                 </View>
 
                 <View style={{ alignSelf: 'flex-start', marginLeft: 24, marginTop: 25 }}>
                     <Text style={{ fontSize: 18, fontWeight: 600, color: 'white', marginLeft: 15, marginBottom: 3 }}>SENHA</Text>
-                    <Text
+                    <TextInput
 
                         style={{
                             fontSize: 16,
@@ -65,37 +60,64 @@ export default function App() {
                             color: 'white',
                             padding: 10,
                             paddingLeft: 25,
-                            backgroundColor: '#1B1B1B',
+                            backgroundColor: isEditable ? '#FF6D24' : '#1B1B1B',
                             alignSelf: 'flex-start',
                             width: 330,
                             height: 40,
                             borderRadius: 20,
                         }}
-
-                    >***********</Text>
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                        placeholder='***********'
+                        editable={isEditable}
+                    />
                 </View>
 
                 <View style={{ alignSelf: 'flex-start', marginLeft: 24, marginTop: 25 }}>
                     <Text style={{ fontSize: 18, fontWeight: 600, color: 'white', marginLeft: 15, marginBottom: 3 }}>TELEFONE</Text>
-                    <Text
+                    <TextInput
                         style={{
                             fontSize: 16,
                             fontWeight: 600,
                             color: 'white',
                             padding: 10,
                             paddingLeft: 25,
-                            backgroundColor: '#1B1B1B',
+                            backgroundColor: isEditable ? '#FF6D24' : '#1B1B1B',
                             alignSelf: 'flex-start',
                             width: 330,
                             height: 40,
                             borderRadius: 20,
                         }}
-                    >(11) 91336-4872</Text>
+                        placeholder='(11) 91336-4872'
+                        editable={isEditable}
+                    />
+                </View>
+
+                <View style={{ alignSelf: 'flex-start', marginLeft: 24, marginTop: 25 }}>
+                    <Text style={{ fontSize: 18, fontWeight: 600, color: 'white', marginLeft: 15, marginBottom: 3 }}>ENDEREÇO</Text>
+                    <TextInput
+                        style={{
+                            fontSize: 16,
+                            fontWeight: 600,
+                            color: 'white',
+                            padding: 10,
+                            paddingLeft: 25,
+                            backgroundColor: isEditable ? '#FF6D24' : '#1B1B1B',
+                            alignSelf: 'flex-start',
+                            width: 330,
+                            height: 40,
+                            borderRadius: 20,
+                            
+                        }}
+                        placeholder='Rua alamedas, 702'
+                        editable={isEditable}
+                    />
                 </View>
 
                 <CustomButton
-                    onPress={handlePress}
+                    onPress={handleToggleEdit}
                     title="ALTERAR DADOS"
+                    
                     buttonStyle={{
                         alignItems: 'center',
                         justifyContent: 'center',

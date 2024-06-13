@@ -29,6 +29,7 @@ export default function corteMaquina({ navigation }){
               color: 'white',
             }}
           />
+
         </View>
     );
 }
