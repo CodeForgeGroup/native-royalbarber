@@ -1,8 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import {useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, TextInput } from 'react-native';
 import { Button, ImageBackground } from 'react-native-web';
-import { estilo } from '../estilo'
+import { estilo } from '../estilo';
+import Modal from "react-native-modal";
+import axios from "axios"; //Requisição HTTP para a API
+import AsyncSotrage from "@react-native-async-storage/async-storage"
 
 const ImgBack = '../../../assets/fundo.png';
 
@@ -20,9 +23,43 @@ const CustomButton2 = ({ onPress, title }) => (
 
 
 export default function Login({ navigation }){    
-return (
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
 
-  
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
+
+  const handleLogin = async () => {
+    //Verifica se o email ou a senha estão preenchidos  
+    if(!email.trim() || !senha.trim()){
+        setErrorModalVisible(true);
+        return;
+      }
+
+      try {
+        const resposta = await axios.post();
+        if (resposta.data){
+          const cliente = resposta.data;
+          if(cliente){
+            console.log(aluno);
+            console.log(aluno.usuario.dados_cliente.id)
+            console.log(aluno.usuario.dados_cliente.nomeCliente)
+            console.log(aluno.access_token)
+
+            const idCliente = aluno.usuario.dados_cliente.id;
+            const token = aluno.access_token;
+
+            //Armazenar o token na memória do APP
+            await AsyncStorage.setItem('userToken', token);
+
+            navigation.navigate('Home', {idCliente})
+          }
+        }
+      } catch (error) {
+          console.error("Erro ao verificar o email e a senha", error);
+          setErrorModalVisible("Erro", "Erro ao verificar email e senha")
+      }
+  }
+  return (  
     <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'white' }}>
     <ImageBackground source={require(ImgBack)} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width:'100%',}}>
         <Image
@@ -34,11 +71,15 @@ return (
         style={{ fontWeight:'bold', color:'white', height: 40, width: 300, borderColor: 'transparent', borderTopColor:'transparent', borderWidth: 1, marginTop: 20, paddingHorizontal: 10, borderBlockColor: '#ff6d24' }}
         placeholder="Email"
         editable={false}
+        value={email}
+        onChange={setEmail}
        />
         <TextInput
         secureTextEntry={true}
         style={{ fontWeight:'bold', color:'white', height: 40, width: 300, borderColor: 'transparent', borderTopColor:'transparent', borderWidth: 1, marginTop: 20, paddingHorizontal: 10, borderBlockColor: '#ff6d24',}}
         placeholder="Senha"
+        value={senha}
+        onChange={setSenha}
        />
 
       <CustomButton
