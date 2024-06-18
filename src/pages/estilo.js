@@ -109,18 +109,5 @@ export const estilo = {
     color: 'white',
   },
 
-  input: {
-    fontSize: 16,
-    fontWeight: 600,
-    color: 'white',
-    padding: 10,
-    paddingLeft: 25,
-    backgroundColor: isEditable ? '#FF6D24' : '#1B1B1B',
-    alignSelf: 'flex-start',
-    width: 330,
-    height: 40,
-    borderRadius: 20,
-  }
-
 };
 

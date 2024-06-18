@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, ImageBackground } from 'react-native';
 import { estilo } from './../estilo';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Carousel } from '../Carousel';
 
@@ -23,7 +25,28 @@ const CustomButton2 = ({ onPress, title, buttonStyle, textStyle }) => (
 );
 
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, route }) {
+
+  const {idCliente} = route.params || {};
+
+  console.log("Cód Cliente: ", idCliente);
+  console.log(route.params);
+
+  const [nomeCliente, setNomeCliente] = useState("");
+  const [emailCliente, setEmailCliente] = useState("");
+
+  useEffect(() => {
+    const fetchClienteData = async () => {
+      try {
+        const token = await AsyncStorage.getItem('userToken');
+        const resposta = await axios.get('')
+      } catch (error) {
+        
+      }
+    }
+  })
+
+
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: 'white', }}>

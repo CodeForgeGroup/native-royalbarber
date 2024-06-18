@@ -15,12 +15,11 @@ import { NavigationContainer } from '@react-navigation/native';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function MyTab() {
+function MyTab({route}) {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle:
-        {
+        tabBarStyle:{
           backgroundColor: '#FF6D24',
           padding: 5,
           height: 63
@@ -41,44 +40,44 @@ function MyTab() {
           fontWeight: 600,
         },
       }}>
-      <Tab.Screen name="Inicio" component={Home} />
+      <Tab.Screen name="Inicio" component={Home} initialParams={{idCliente : route.params.idCliente}}/>
       <Tab.Screen name="Serviços" component={Servicos} />
       <Tab.Screen name="Agenda" component={Agenda} />
-      <Tab.Screen name="Perfil" component={Perfil} options={{ headerShown: false }} />
+      <Tab.Screen name="Perfil" component={Perfil} options={{ headerShown: false }} initialParams={{idCliente : route.params.idCliente}}/>
     </Tab.Navigator>
   );
 }
 
-function Servico() {
-  return (
+// function Servico() {
+//   return (
 
 
 
-    <Tab.Navigator screenOptions={{
-      tabBarStyle:
-      {
-        backgroundColor: '#FF6D24',
-        padding: 5,
-        height: 63
-      },
-      tabBarLabelStyle: {
-        color: 'red'
-      },
-      headerShown: false,
-      tabBarActiveTintColor: '#575656',
-      tabBarInactiveTintColor: 'white',
+//     <Tab.Navigator screenOptions={{
+//       tabBarStyle:
+//       {
+//         backgroundColor: '#FF6D24',
+//         padding: 5,
+//         height: 63
+//       },
+//       tabBarLabelStyle: {
+//         color: 'red'
+//       },
+//       headerShown: false,
+//       tabBarActiveTintColor: '#575656',
+//       tabBarInactiveTintColor: 'white',
 
-    }}>
+//     }}>
 
-      <Tab.Screen name='Main' component={MyTab} options={{ headerShown: false }} />
+//       <Tab.Screen name='Main' component={MyTab} options={{ headerShown: false }} />
 
       
       
-    </Tab.Navigator>
+//     </Tab.Navigator>
 
 
-  );
-}
+//   );
+// }
 
 export default function Routes() {
   return (

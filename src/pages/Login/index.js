@@ -36,11 +36,11 @@ export default function Login({ navigation }){
       }
 
       try {
-        const resposta = await axios.post();
+        const resposta = await axios.post('http://127.0.0.1:8000/loginApi?email=${email}.com&senha=${senha}');
         if (resposta.data){
           const cliente = resposta.data;
           if(cliente){
-            console.log(aluno);
+            console.log(cliente);
             console.log(aluno.usuario.dados_cliente.id)
             console.log(aluno.usuario.dados_cliente.nomeCliente)
             console.log(aluno.access_token)
@@ -70,27 +70,38 @@ export default function Login({ navigation }){
         <TextInput
         style={{ fontWeight:'bold', color:'white', height: 40, width: 300, borderColor: 'transparent', borderTopColor:'transparent', borderWidth: 1, marginTop: 20, paddingHorizontal: 10, borderBlockColor: '#ff6d24' }}
         placeholder="Email"
-        editable={false}
         value={email}
-        onChange={setEmail}
+        onChangeText={setEmail}
        />
         <TextInput
         secureTextEntry={true}
         style={{ fontWeight:'bold', color:'white', height: 40, width: 300, borderColor: 'transparent', borderTopColor:'transparent', borderWidth: 1, marginTop: 20, paddingHorizontal: 10, borderBlockColor: '#ff6d24',}}
         placeholder="Senha"
         value={senha}
-        onChange={setSenha}
+        onChangeText={setSenha}
        />
 
       <CustomButton
         title="ENTRAR"
-        onPress={() => navigation.navigate('Inicio')}
+        onPress={handleLogin}
       />
 
       <CustomButton2
         title="Esqueci a senha"
         onPress={() => navigation.navigate('#')}
       />
+
+      <Modal isVisible={errorModalVisible} onBackButtonPress={() => setErrorModalVisible(false)} >
+
+        <View style={{backgroundColor: '#333', padding: 20, borderRadius: 10, alignItems: 'center',}}>
+          <Text style={{fontSize: 20, fontWeight: 'bold', marginBottom: 10, color: 'red'}}>Erro</Text>
+          <Text style={{fontSize: 16, marginBottom: 20, textAlign: 'center', color: 'white', }}>Email ou senha incorretos. Tente novamente</Text>
+          <TouchableOpacity onPress={() => setErrorModalVisible(false)}>
+            <Text style={{fontSize: 18, color: '#3498db'}} >OK</Text>
+          </TouchableOpacity>
+        </View>
+
+      </Modal>
       </ImageBackground>
     </SafeAreaView>
   
