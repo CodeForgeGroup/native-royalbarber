@@ -40,6 +40,7 @@ function MyTab({route}) {
           fontWeight: 600,
         },
       }}>
+        
       <Tab.Screen name="Inicio" component={Home} initialParams={{idCliente : route.params.idCliente}}/>
       <Tab.Screen name="Serviços" component={Servicos} />
       <Tab.Screen name="Agenda" component={Agenda} />

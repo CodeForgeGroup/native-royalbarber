@@ -39,12 +39,22 @@ export default function Home({ navigation, route }) {
     const fetchClienteData = async () => {
       try {
         const token = await AsyncStorage.getItem('userToken');
-        const resposta = await axios.get('')
+        const resposta = await axios.get(`http://127.0.0.1:8000/cliente/${idCliente}`,{
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setNomeCliente(resposta.data.nomeCliente);
+        setEmailCliente(resposta.data.emailCliente);
+
       } catch (error) {
-        
+        console.log('Erro ao procurar dados do cliente.');
       }
+    };
+    if(idCliente){
+      fetchClienteData();
     }
-  })
+  }, [idCliente]);
 
 
 
@@ -55,7 +65,7 @@ export default function Home({ navigation, route }) {
         {/* TOPO */}
         <View style={estilo.topo}>
           <Image source={require('../../assets/logoLaranja.svg')} style={estilo.logo} />
-          <Text style={estilo.textOla}>Olá, <Text style={{ color: 'orange' }}>'USUÁRIO'</Text><br />Seja bem-vindo(a)</Text>
+          <Text style={estilo.textOla}>Olá, <Text style={{ color: 'orange' }}>{nomeCliente}</Text><br />Seja bem-vindo(a)</Text>
           <CustomButton title="AGENDAR" onPress={() => navigation.navigate('Inicio')}
             buttonStyle={{
               alignItems: 'center',
