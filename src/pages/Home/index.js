@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, ImageBackground } from 'react-native';
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, ImageBackground, Dimensions,  } from 'react-native';
 import { estilo } from './../estilo';
+import Carousel from 'react-native-snap-carousel';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -23,10 +24,26 @@ const CustomButton2 = ({ onPress, title, buttonStyle, textStyle }) => (
   </TouchableOpacity>
 );
 
-
-
+const { width: screenWidth } = Dimensions.get('window');
 
 export default function Home({ navigation, route }) {
+
+  const [entries,  setEntries] = useState([
+    { laranjinha: 'Item 1' },
+    { laranjinha: 'Item 2' },
+    { laranjinha: 'Item 3' },
+  ]);
+
+
+  const carouselRef = useRef(null);
+
+  const _renderItem = ({item, index}) => {
+    return (
+      <View style={{ justifyContent: 'center', alignItems: 'center', cursor: 'pointer', backgroundColor: 'orange', width: '45%', height: 120 }}>
+        <Text style={{color: 'white'}}>{ item.laranjinha }</Text>
+      </View>
+    );
+  }
 
   const {idCliente} = route.params || {};
 
@@ -120,22 +137,17 @@ export default function Home({ navigation, route }) {
             <Text style={{ marginTop: 35, fontSize: 26, fontWeight: 700, color: 'white' }}>SERVIÇOS & PRODUTOS</Text>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 34, width: '100%' }}>
               <Text style={{ fontSize: 23, fontWeight: 600, color: 'white', marginTop: '55' }}>Cortes Masculinos</Text>
-              <View style={{ flexDirection: 'row', gap: 15, marginTop: 25 }}>  {/* Main div dos cortes*/}
+              <View style={{ flexDirection: 'row', gap: 15, marginTop: 25, width: '100%'}}>  {/* Main div dos cortes*/}
                 {/* Cortes */}
-                <View style={{ justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
-                  <Text style={{ position: 'relative', top: 60, zIndex: 1, color: 'white', fontSize: 18, fontWeight: 600 }}>Fade</Text>
-                  <Image source={require('../../assets/corte1.png')} />
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
-                  <Text style={{ position: 'relative', top: 60, zIndex: 1, color: 'white', fontSize: 18, fontWeight: 600 }}>{sobrenomeCliente}</Text>
-                  <Image source={require('../../assets/corte2.png')} />
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
-                  <Text style={{ position: 'relative', top: 60, zIndex: 1, color: 'white', fontSize: 18, fontWeight: 600 }}>Mul</Text>
-                  <Image source={require('../../assets/corte3.png')} />
-                </View>
+              
+                  <Carousel
+                    ref={carouselRef}
+                    data={entries}
+                    renderItem={_renderItem}
+                    sliderWidth={screenWidth}
+                    itemWidth={screenWidth * 0.75}
+                    layout={'default'}
+                  />
 
                 {/* FIM CORTES */}
               </View> {/* FIM MAIN DIV CORTES */}
