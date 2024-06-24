@@ -49,43 +49,13 @@ function MyTab({route}) {
   );
 }
 
-// function Servico() {
-//   return (
-
-
-
-//     <Tab.Navigator screenOptions={{
-//       tabBarStyle:
-//       {
-//         backgroundColor: '#FF6D24',
-//         padding: 5,
-//         height: 63
-//       },
-//       tabBarLabelStyle: {
-//         color: 'red'
-//       },
-//       headerShown: false,
-//       tabBarActiveTintColor: '#575656',
-//       tabBarInactiveTintColor: 'white',
-
-//     }}>
-
-//       <Tab.Screen name='Main' component={MyTab} options={{ headerShown: false }} />
-
-      
-      
-//     </Tab.Navigator>
-
-
-//   );
-// }
 
 export default function Routes() {
   return (
     <Stack.Navigator >
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="Inicio" component={MyTab} options={{ headerShown: false }} />
-      {/* <Stack.Screen name="Corte na máquina" component={Servico} options={{ headerShown: true }} /> */}
+      <Stack.Screen name="CorteMaq" component={CorteMaq} options={{ headerShown: true }} />
     </Stack.Navigator>
   );
 }

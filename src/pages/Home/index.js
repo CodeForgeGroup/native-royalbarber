@@ -4,7 +4,6 @@ import { estilo } from './../estilo';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Carousel } from '../Carousel';
 
 const banner = '../../assets/fundoBanner.png'
 
@@ -25,6 +24,8 @@ const CustomButton2 = ({ onPress, title, buttonStyle, textStyle }) => (
 );
 
 
+
+
 export default function Home({ navigation, route }) {
 
   const {idCliente} = route.params || {};
@@ -33,6 +34,7 @@ export default function Home({ navigation, route }) {
   console.log(route.params);
 
   const [nomeCliente, setNomeCliente] = useState("");
+  const [sobrenomeCliente, setSobrenomeCliente] = useState("");
   const [emailCliente, setEmailCliente] = useState("");
 
   useEffect(() => {
@@ -46,7 +48,8 @@ export default function Home({ navigation, route }) {
         });
         setNomeCliente(resposta.data.nomeCliente);
         setEmailCliente(resposta.data.emailCliente);
-
+        setSobrenomeCliente(resposta.data.sobrenomeCliente);
+        
       } catch (error) {
         console.log('Erro ao procurar dados do cliente.');
       }
@@ -65,7 +68,7 @@ export default function Home({ navigation, route }) {
         {/* TOPO */}
         <View style={estilo.topo}>
           <Image source={require('../../assets/logoLaranja.svg')} style={estilo.logo} />
-          <Text style={estilo.textOla}>Olá, <Text style={{ color: 'orange' }}>{nomeCliente}</Text><br />Seja bem-vindo(a)</Text>
+          <Text style={estilo.textOla}>Olá, <Text style={{ color: 'orange' }}>{nomeCliente} </Text><br />Seja bem-vindo(a)</Text>
           <CustomButton title="AGENDAR" onPress={() => navigation.navigate('Inicio')}
             buttonStyle={{
               alignItems: 'center',
@@ -125,7 +128,7 @@ export default function Home({ navigation, route }) {
                 </View>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
-                  <Text style={{ position: 'relative', top: 60, zIndex: 1, color: 'white', fontSize: 18, fontWeight: 600 }}>Buzzed</Text>
+                  <Text style={{ position: 'relative', top: 60, zIndex: 1, color: 'white', fontSize: 18, fontWeight: 600 }}>{sobrenomeCliente}</Text>
                   <Image source={require('../../assets/corte2.png')} />
                 </View>
 
