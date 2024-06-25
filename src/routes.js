@@ -42,7 +42,7 @@ function MyTab({route}) {
       }}>
         
       <Tab.Screen name="Inicio" component={Home} initialParams={{idCliente : route.params.idCliente}}/>
-      <Tab.Screen name="Serviços" component={Servicos} />
+      <Tab.Screen name="Serviços" component={Servicos} initialParams={{idCliente : route.params.idCliente}}/>
       <Tab.Screen name="Agenda" component={Agenda} />
       <Tab.Screen name="Perfil" component={Perfil} options={{ headerShown: false }} initialParams={{idCliente : route.params.idCliente}}/>
     </Tab.Navigator>

@@ -41,7 +41,7 @@ export default function Login({ navigation }) {
       
       console.log(senha);
       
-      const resposta = await axios.post('http://127.0.0.1:8000/loginApi?email=ggustavobrito124@gmail.com&senha=123');
+      const resposta = await axios.post(`http://127.0.0.1:8000/loginApi?email=${email}&senha=${senha}`);
    
       if (resposta.data) {
         const cliente = resposta.data;
