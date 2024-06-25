@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Image, ImageBackground } from 'react-native';
-import { estilo } from './../estilo'
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Image, ImageBackground, Dimensions } from 'react-native';
+import { estilo } from './../estilo';
+import Carousel from 'react-native-snap-carousel';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -17,13 +18,18 @@ const CustomButton2 = ({ onPress, title, buttonStyle, textStyle }) => (
 );
 
 const gradiente = '../../assets/gradiente.svg';
+// const ImgTeste = 'http://127.0.0.1:8000/storage/imagem/2wbLhrl2Ajw6EgBvrTPVc7IvI7ih9OunpNxhBfQ7.png';
 
 // const corteServ = '../../assets/corteServ.png'
 
+const { width: screenWidth } = Dimensions.get('window');
+
 
 export default function Servicos({ navigation , route}) {
-
   
+
+
+
   const { idCliente } = route.params || {};
 
   console.log("Cód Cliente: ", idCliente);
@@ -73,7 +79,42 @@ export default function Servicos({ navigation , route}) {
       fetchClienteData();
     }
   }, [idCliente]);
+
+  const [entries,  setEntries] = useState([
+    {
+       laranjinha: 'Item 1'
+    },
+    { laranjinha: 'Item 2' },
+    { laranjinha: 'Item 3' },
+    { laranjinha: 'Item 4' },
+  ]);
+
+  const carouselRef = useRef(null);
+
+  const _renderItem = ({item, index}) => {
+    return (
+      <View style={{ marginTop: 60, marginBottom: 35, }}>
+            
+      <Image source={require('../../assets/corteServ.png')} />
+      <View
+        style={{
+          backgroundColor: 'rgba(51, 51, 51, 0.8)',
+          height: 73, alignItems: 'center',
+          justifyContent: 'center',
+          position: 'absolute',
+          top: 228,
+          width: '100%',
+          borderBottomStartRadius: 15,
+          borderBottomEndRadius: 15,
+        }}
+      >
+        <Text style={{ color: 'white', fontSize: 20, fontWeight: 600 }}>{item.nomeServico}</Text>
+      </View>
+    </View>
+    );
+  }
   return (
+    
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: 'white', }}>
       <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
 
@@ -103,44 +144,23 @@ export default function Servicos({ navigation , route}) {
           <Image source={require('../../assets/tesoura.svg')} style={{ marginTop: 15 }} />
           <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'white' }}>SERVIÇOS</Text>
 
-          <View style={{ marginTop: 60, marginBottom: 35, marginLeft:20 }}>
-            <Image source={require('../../assets/corteServ.png')} />
-            <View
-              style={{
-                backgroundColor: 'rgba(51, 51, 51, 0.8)',
-                height: 73, alignItems: 'center',
-                justifyContent: 'center',
-                position: 'absolute',
-                top: 228,
-                width: '100%',
-                borderBottomStartRadius: 15,
-                borderBottomEndRadius: 15,
-              }}
-            >
-              <Text style={{ color: 'white', fontSize: 20, fontWeight: 600 }}>{nomeServico}</Text>
-            </View>
-          </View>
-          <View style={{ marginTop: 60, marginBottom: 35, marginLeft:50, }}>
-            <Image source={require('../../assets/corteServ.png')} />
-            <View
-              style={{
-                backgroundColor: 'rgba(51, 51, 51, 0.8)',
-                height: 73, alignItems: 'center',
-                justifyContent: 'center',
-                position: 'absolute',
-                top: 228,
-                width: '100%',
-                borderBottomStartRadius: 15,
-                borderBottomEndRadius: 15,
-              }}
-            >
-              <Text style={{ color: 'white', fontSize: 20, fontWeight: 600 }}>{nomeServico}</Text>
-            </View>
-          </View>
+          <Carousel
+                    ref={carouselRef}
+                    data={servicos}
+                    renderItem={_renderItem}
+                    sliderWidth={screenWidth}
+                    itemWidth={screenWidth * 0.63}
+                    layout={'default'}
+                    // loop={true}
+                    firstItem={1}
+                  />
+
+        
         </ImageBackground>
         
 
         <View
+        
           style={{
             backgroundColor: 'black',
             borderTopEndRadius: 24,
@@ -154,6 +174,7 @@ export default function Servicos({ navigation , route}) {
           }}
         >
           {servicos.map(servico=> (
+            
           <View key={servico.id} style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer' }}>
             <Image source={require('../../assets/corteServ.png')} style={{borderColor: 'white', borderWidth: 1, width:90, height:85,}}  />
             <View style={{ height: '70%', justifyContent: 'space-between', marginLeft: 25,width:180, }} >
@@ -161,13 +182,14 @@ export default function Servicos({ navigation , route}) {
               <Text style={{ fontSize: 14 }}>{servico.descricaoServico}</Text>
             </View>
             <Image source={require('../../assets/Arrow 5.png')} style={{marginLeft: '9%', cursor: 'pointer'}} />
+            
           </View>
           ))};
 
           <TouchableOpacity
             onPress={() => navigation.navigate('CorteMaq')}
             style={{color: 'white'}}
-          >ALOO </TouchableOpacity>
+          ></TouchableOpacity>
 
         </View>
       </SafeAreaView>

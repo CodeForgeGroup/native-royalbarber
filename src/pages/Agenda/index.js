@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image } from 'react-native';
 import { ImageBackground } from 'react-native-web';
 import { estilo } from '../estilo'
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const fundo = '../../assets/fundoAgenda.png';
 const img = '../../assets/fundoCompro.png';
@@ -12,7 +14,40 @@ const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
     </TouchableOpacity>
 );
 
-export default function Perfil() {
+export default function Perfil({navigation, route}) {
+    const { idCliente } = route.params || {};
+
+    console.log("Cód Cliente: ", idCliente);
+    console.log(route.params);
+  
+    const [nomeCliente, setNomeCliente] = useState("");
+    const [emailCliente, setEmailCliente] = useState("");
+    const [nomeServico, setNomeServico] = useState("");
+    const [descricaoServico, setDescricaoServico] = useState("");
+    const [fotoServico, setFotoServico] = useState("");
+    const [servicos, setServicos] = useState([]);
+
+    useEffect(() => {
+        const fetchClienteData = async () => {
+          try {
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await axios.get(`http://127.0.0.1:8000/cliente/${idCliente}`, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            });
+            console.log('Resposta Cliente:', resposta.data); // Log para verificar a resposta
+            setNomeCliente(resposta.data.nomeCliente);
+            setEmailCliente(resposta.data.emailCliente);
+          } catch (error) {
+            console.log('Erro ao procurar dados do cliente:', error);
+          }
+        };
+        if (idCliente) {
+          fetchClienteData();
+        }
+      }, [idCliente]);
+
     return (
         <ScrollView>
             <SafeAreaView style={{ flex: 1 }}>
