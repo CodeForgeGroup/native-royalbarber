@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, ImageBackground, Dimensions,  } from 'react-native';
 import { estilo } from './../estilo';
-import Carousel from 'react-native-snap-carousel';
+import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Servicos from '../Servicos';
 
 
 const banner = '../../assets/fundoBanner.png'
@@ -11,6 +12,9 @@ const banner = '../../assets/fundoBanner.png'
 const servico = '../../assets/fundoServico.png'
 
 const agendamentos = '../../assets/fundoAgendamento.png'
+
+const servico1 = '../../assets/servico1.jpg';
+
 
 const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
   <TouchableOpacity onPress={onPress} style={estilo.btnAgenda}>
@@ -29,19 +33,38 @@ const { width: screenWidth } = Dimensions.get('window');
 export default function Home({ navigation, route }) {
 
   const [entries,  setEntries] = useState([
-    { laranjinha: 'Item 1' },
-    { laranjinha: 'Item 2' },
-    { laranjinha: 'Item 3' },
+    {
+       laranjinha: 'Item 1',
+       img: require('../../assets/servico1.jpg'),
+    },
+    {
+       laranjinha: 'Item 2',
+       img: require('../../assets/servico2.jpg'),
+    },
+    {
+       laranjinha: 'Item 3',
+       img: require('../../assets/servico3.jpg'),
+    },    
   ]);
 
 
   const carouselRef = useRef(null);
 
-  const _renderItem = ({item, index}) => {
+  const _renderServicos = ({item, index}) => {
     return (
-      <View style={{ width: '60%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center', cursor: 'pointer', backgroundColor: 'orange', height: 120 }}>
-        <Text style={{color: 'white'}}>{ item.laranjinha }</Text>
+      <View style={{ justifyContent: 'center', alignItems: 'center', cursor: 'pointer', width: '100%', height: 120 }}>
+        <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', position: 'absolute', top: -50}}>{ item.laranjinha }</Text>
+        <Image source={item.img} style={{ backgroundColor: '#333', opacity: 0.5 }} />
+        
       </View>
+    );
+  }
+
+  const _renderProdutos = ({item, index}) => {
+    return (
+      <ImageBackground source={item.img} style={{ justifyContent: 'center', alignItems: 'center', cursor: 'pointer', backgroundColor: 'orange', width: '100%', height: 120 }}>
+        <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>{ item.laranjinha }</Text>
+      </ImageBackground>
     );
   }
 
@@ -76,7 +99,7 @@ export default function Home({ navigation, route }) {
     }
   }, [idCliente]);
 
-
+  
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: 'white', }}>
@@ -137,20 +160,23 @@ export default function Home({ navigation, route }) {
             <Text style={{ marginTop: 35, fontSize: 26, fontWeight: 700, color: 'white' }}>SERVIÇOS & PRODUTOS</Text>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 34, width: '100%' }}>
               <Text style={{ fontSize: 23, fontWeight: 600, color: 'white', marginTop: '55' }}>Cortes Masculinos</Text>
-                
+              <View style={{ flexDirection: 'row', gap: 15, marginTop: 25, width: '100%'}}>  {/* Main div dos cortes*/}
                 {/* Cortes */}
               
                   <Carousel
                     ref={carouselRef}
                     data={entries}
-                    renderItem={_renderItem}
+                    renderItem={_renderServicos}
                     sliderWidth={screenWidth}
-                    itemWidth={screenWidth * 0.45}
+                    itemWidth={screenWidth * 0.50}
                     layout={'default'}
+                    loop={true}
+                    autoplay={true}
+                    autoplayInterval={3000}
                   />
 
                 {/* FIM CORTES */}
-               {/* FIM MAIN DIV CORTES */}
+              </View> {/* FIM MAIN DIV CORTES */}
 
               <CustomButton2 title='VER MAIS' onPress={() => navigation.navigate('Serviços')}
                 buttonStyle={{
@@ -174,21 +200,17 @@ export default function Home({ navigation, route }) {
               <View style={{ flexDirection: 'row', marginTop: 25, gap: 25, cursor: 'pointer', alignItems: 'center', justifyContent: 'center' }}> {/* Produtos  */}
 
 
-                <View>
-                  <Image source={require('../../assets/produto1.png')} style={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }} />
-                  <View style={{ backgroundColor: '#ff6d24', height: 85, alignItems: 'center', justifyContent: 'center', gap: 5, borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}>
-                    <Text style={{ color: 'white', fontSize: 16, fontWeight: 600 }}>Gel Capilar</Text>
-                    <Text style={{ color: 'white', fontSize: 13, fontWeight: 600 }}>R$15,00</Text>
-                  </View>
-                </View>
-
-                <View>
-                  <Image source={require('../../assets/produto1.png')} style={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }} />
-                  <View style={{ backgroundColor: '#ff6d24', alignItems: 'center', justifyContent: 'center', height: 85, gap: 5, borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}>
-                    <Text style={{ color: 'white', fontSize: 16, fontWeight: 600 }}>Gel Capilar</Text>
-                    <Text style={{ color: 'white', fontSize: 13, fontWeight: 600 }}>R$15,00</Text>
-                  </View>
-                </View>
+              <Carousel
+                    ref={carouselRef}
+                    data={entries}
+                    renderItem={_renderProdutos}
+                    sliderWidth={screenWidth}
+                    itemWidth={screenWidth * 0.50}
+                    layout={'default'}
+                    loop={true}
+                    autoplay={true}
+                    autoplayInterval={2500}
+                  />
 
 
               </View>
