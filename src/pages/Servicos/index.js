@@ -18,6 +18,7 @@ const CustomButton2 = ({ onPress, title, buttonStyle, textStyle }) => (
 );
 
 const gradiente = '../../assets/gradiente.svg';
+// const ImgTeste = 'http://127.0.0.1:8000/storage/imagem/2wbLhrl2Ajw6EgBvrTPVc7IvI7ih9OunpNxhBfQ7.png';
 
 // const corteServ = '../../assets/corteServ.png'
 
@@ -80,7 +81,9 @@ export default function Servicos({ navigation , route}) {
   }, [idCliente]);
 
   const [entries,  setEntries] = useState([
-    { laranjinha: 'Item 1' },
+    {
+       laranjinha: 'Item 1'
+    },
     { laranjinha: 'Item 2' },
     { laranjinha: 'Item 3' },
     { laranjinha: 'Item 4' },
