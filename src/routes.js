@@ -59,12 +59,12 @@ function MyTab({route}) {
        initialParams={{idCliente : route.params.idCliente}}
 
        options={{
-        tabBarIcon: ({focused}) => {
+        tabBarIcon: ({size, color, focused}) => {
           if(focused){
-            return <CustomBackButton style={{width: 25, height: 27}}/>
+            return <Ionicons name='home' size={size} color={color} />
           }
 
-          return <Image source={require('./assets/iconHomeP.svg')} />
+          return <Ionicons name='home-outline' size={size} color={color} />
         }
        }}
        />
@@ -77,9 +77,11 @@ function MyTab({route}) {
       component={Agenda} 
       options={{ 
         headerShown: false,
-        // tabBarIcon:({size, color, focused}) => {
-        //   return <Image source={require('./assets/')} />
-        // } 
+        tabBarIcon:({size, color, focused}) => {
+          if(focused){
+            return <Ionicons name='' />
+          }
+        } 
       }} 
       initialParams={{idCliente : route.params.idCliente}}
       />

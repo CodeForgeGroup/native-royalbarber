@@ -39,7 +39,7 @@ export default function Home({ navigation, route }) {
 
   const _renderItem = ({item, index}) => {
     return (
-      <View style={{ justifyContent: 'center', alignItems: 'center', cursor: 'pointer', backgroundColor: 'orange', width: '45%', height: 120 }}>
+      <View style={{ width: '60%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center', cursor: 'pointer', backgroundColor: 'orange', height: 120 }}>
         <Text style={{color: 'white'}}>{ item.laranjinha }</Text>
       </View>
     );
@@ -137,7 +137,7 @@ export default function Home({ navigation, route }) {
             <Text style={{ marginTop: 35, fontSize: 26, fontWeight: 700, color: 'white' }}>SERVIÇOS & PRODUTOS</Text>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 34, width: '100%' }}>
               <Text style={{ fontSize: 23, fontWeight: 600, color: 'white', marginTop: '55' }}>Cortes Masculinos</Text>
-              <View style={{ flexDirection: 'row', gap: 15, marginTop: 25, width: '100%'}}>  {/* Main div dos cortes*/}
+                
                 {/* Cortes */}
               
                   <Carousel
@@ -145,12 +145,12 @@ export default function Home({ navigation, route }) {
                     data={entries}
                     renderItem={_renderItem}
                     sliderWidth={screenWidth}
-                    itemWidth={screenWidth * 0.75}
+                    itemWidth={screenWidth * 0.45}
                     layout={'default'}
                   />
 
                 {/* FIM CORTES */}
-              </View> {/* FIM MAIN DIV CORTES */}
+               {/* FIM MAIN DIV CORTES */}
 
               <CustomButton2 title='VER MAIS' onPress={() => navigation.navigate('Serviços')}
                 buttonStyle={{

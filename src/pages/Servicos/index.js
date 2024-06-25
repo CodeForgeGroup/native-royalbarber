@@ -129,7 +129,7 @@ export default function Servicos({ navigation }) {
           </View>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('Corte na máquina')}
+            onPress={() => navigation.navigate('CorteMaq')}
             style={{color: 'white'}}
           >ALOO </TouchableOpacity>
 
