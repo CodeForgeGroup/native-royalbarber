@@ -53,12 +53,6 @@ function MyTab({route}) {
       }}>
         {/* ---------------------- */}
         
-<<<<<<< HEAD
-      <Tab.Screen name="Inicio" component={Home} initialParams={{idCliente : route.params.idCliente}}/>
-      <Tab.Screen name="Serviços" component={Servicos} initialParams={{idCliente : route.params.idCliente}}/>
-      <Tab.Screen name="Agenda" component={Agenda} />
-      <Tab.Screen name="Perfil" component={Perfil} options={{ headerShown: false }} initialParams={{idCliente : route.params.idCliente}}/>
-=======
       <Tab.Screen
        name="Inicio" 
        component={Home} 
@@ -108,7 +102,6 @@ function MyTab({route}) {
       }} 
       initialParams={{idCliente : route.params.idCliente}}
       />
->>>>>>> 1eb4cf2594e35ad73d0dfec2226e2b4d75f722eb
     </Tab.Navigator>
   );
 }
