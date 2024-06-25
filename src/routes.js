@@ -109,10 +109,7 @@ export default function Routes() {
     <Stack.Navigator screenOptions={{ headerBackImage: () => <CustomBackButton />, }}>
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="Inicio" component={MyTab} options={{ headerShown: false }} />
-      <Stack.Screen name="Corte na máquina" component={CorteMaq} options={{ headerStyle: { backgroundColor: '#1B1B1B', borderBottomColor: '#00000', elevation: 0}, headerTintColor: 'white', headerTitleStyle: {
-        fontWeight: 'bold',
-        fontSize: 20
-      }}} />
+      <Stack.Screen name="CorteMaq" component={CorteMaq} options={{ headerShown: true }} />
     </Stack.Navigator>
   );
 }
