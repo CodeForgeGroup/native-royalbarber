@@ -128,6 +128,11 @@ export default function Servicos({ navigation }) {
             <Image source={require('../../assets/Arrow 5.png')} style={{marginLeft: '9%', cursor: 'pointer'}} />
           </View>
 
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Corte na máquina')}
+            style={{color: 'white'}}
+          >ALOO </TouchableOpacity>
+
         </View>
       </SafeAreaView>
     </ScrollView>
