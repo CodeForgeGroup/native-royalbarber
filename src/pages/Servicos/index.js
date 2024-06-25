@@ -164,6 +164,11 @@ export default function Servicos({ navigation , route}) {
           </View>
           ))};
 
+          <TouchableOpacity
+            onPress={() => navigation.navigate('CorteMaq')}
+            style={{color: 'white'}}
+          >ALOO </TouchableOpacity>
+
         </View>
       </SafeAreaView>
     </ScrollView>
