@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image } from 'react-native';
 import { ImageBackground } from 'react-native-web';
 import { estilo } from '../estilo'

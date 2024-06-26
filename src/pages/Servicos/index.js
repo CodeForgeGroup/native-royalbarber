@@ -188,8 +188,8 @@ export default function Servicos({ navigation , route}) {
 
           <TouchableOpacity
             onPress={() => navigation.navigate('CorteMaq')}
-            style={{color: 'white'}}
-          ></TouchableOpacity>
+            style={{color: 'white', padding: 10, backgroundColor: 'orange', borderRadius: 16}}
+          >CORTE MAQUINA</TouchableOpacity>
 
         </View>
       </SafeAreaView>

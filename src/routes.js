@@ -4,7 +4,7 @@ import {Image} from 'react-native';
 // import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { Ionicons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -70,8 +70,16 @@ function MyTab({route}) {
        />
 
       <Tab.Screen name="Serviços"
-       component={Servicos} 
+       component={Servicos}
+       options={{tabBarIcon:({size, color, focused}) => {
+        if(focused) {
+          return <Ionicons name="cut" size={size} color={color} />
+        }
+
+        return <Ionicons name="cut-outline" size={size} color={color} />
+       }}} 
        />
+
       <Tab.Screen 
       name="Agenda" 
       component={Agenda} 
@@ -79,8 +87,10 @@ function MyTab({route}) {
         headerShown: false,
         tabBarIcon:({size, color, focused}) => {
           if(focused){
-            return <Ionicons name='' />
+            return <Ionicons name="calendar-number" size={size} color={color} />
           }
+
+          return <Ionicons name="calendar-number-outline" size={size} color={color} />
         } 
       }} 
       initialParams={{idCliente : route.params.idCliente}}
@@ -97,7 +107,7 @@ function MyTab({route}) {
             return <Ionicons name='person' size={size} color={color} />
           }
           
-          return <Ionicons name='person' size={size} color={color} /> 
+          return <Ionicons name='person-outline' size={size} color={color} /> 
         } 
       }} 
       initialParams={{idCliente : route.params.idCliente}}
@@ -108,7 +118,7 @@ function MyTab({route}) {
 
 export default function Routes() {
   return (
-    <Stack.Navigator screenOptions={{ headerBackImage: () => <CustomBackButton />, }}>
+    <Stack.Navigator>
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="Inicio" component={MyTab} options={{ headerShown: false }} />
       <Stack.Screen name="CorteMaq" component={CorteMaq} options={{ headerShown: true }} />

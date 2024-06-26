@@ -34,16 +34,16 @@ export default function Home({ navigation, route }) {
 
   const [entries,  setEntries] = useState([
     {
-       laranjinha: 'Item 1',
-       img: require('../../assets/servico1.jpg'),
+       title: 'Item 1',
+       img: require('../../assets/servico1.png'),
     },
     {
-       laranjinha: 'Item 2',
-       img: require('../../assets/servico2.jpg'),
+       title: 'Item 2',
+       img: require('../../assets/servico2.png'),
     },
     {
-       laranjinha: 'Item 3',
-       img: require('../../assets/servico3.jpg'),
+       title: 'Item 3',
+       img: require('../../assets/servico3.png'),
     },    
   ]);
 
@@ -52,18 +52,16 @@ export default function Home({ navigation, route }) {
 
   const _renderServicos = ({item, index}) => {
     return (
-      <View style={{ justifyContent: 'center', alignItems: 'center', cursor: 'pointer', width: '100%', height: 120 }}>
-        <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', position: 'absolute', top: -50}}>{ item.laranjinha }</Text>
-        <Image source={item.img} style={{ backgroundColor: '#333', opacity: 0.5 }} />
-        
-      </View>
+      <ImageBackground source={item.img} style={{ justifyContent: 'center', alignItems: 'center', cursor: 'pointer', width: '100%', height: 120 }}>
+        <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', }}>{ item.title }</Text>
+      </ImageBackground>
     );
   }
 
   const _renderProdutos = ({item, index}) => {
     return (
       <ImageBackground source={item.img} style={{ justifyContent: 'center', alignItems: 'center', cursor: 'pointer', backgroundColor: 'orange', width: '100%', height: 120 }}>
-        <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>{ item.laranjinha }</Text>
+        <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>{ item.title }</Text>
       </ImageBackground>
     );
   }
