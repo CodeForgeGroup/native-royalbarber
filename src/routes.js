@@ -12,6 +12,7 @@ import Servicos from './pages/Servicos';
 import Agenda from './pages/Agenda';
 import Perfil from './pages/Perfil';
 import CorteMaq from './pages/Cortes/corteMaq'
+import { tintColor } from 'deprecated-react-native-prop-types/DeprecatedImagePropType';
 
 
 const Stack = createStackNavigator();
@@ -49,6 +50,9 @@ function MyTab({route}) {
           color: 'white',
           fontWeight: 600,
         },
+
+        tabBarActiveTintColor: 'white',
+        tabBarInactiveTintColor: 'black'
        
       }}>
         {/* ---------------------- */}
@@ -70,15 +74,15 @@ function MyTab({route}) {
        />
 
       <Tab.Screen name="Serviços"
-       component={Servicos}
-       options={{tabBarIcon:({size, color, focused}) => {
+      component={Servicos}
+      options={{tabBarIcon:({size, color, focused}) => {
         if(focused) {
           return <Ionicons name="cut" size={size} color={color} />
         }
 
         return <Ionicons name="cut-outline" size={size} color={color} />
        }}} 
-       />
+      />
 
       <Tab.Screen 
       name="Agenda" 
@@ -118,10 +122,40 @@ function MyTab({route}) {
 
 export default function Routes() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-      <Stack.Screen name="Inicio" component={MyTab} options={{ headerShown: false }} />
-      <Stack.Screen name="CorteMaq" component={CorteMaq} options={{ headerShown: true }} />
+    <Stack.Navigator screenOptions={{
+      headerStyle:{
+        backgroundColor: '#1B1B1B'
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
+      headerTintColor: 'white'
+    }}
+    >
+
+      <Stack.Screen 
+      name="Login" 
+      component={Login} 
+      options={{ 
+        headerShown: false 
+      }} 
+      />
+      <Stack.Screen 
+      name="Inicio" 
+      component={MyTab} 
+      options={{
+         headerShown: false 
+      }} 
+      />
+      <Stack.Screen 
+      name="CorteMaq"
+     
+      component={CorteMaq} 
+      options={{ 
+        headerShown: true,
+        title: 'Corte na máquina' 
+      }} 
+      />
     </Stack.Navigator>
   );
 }

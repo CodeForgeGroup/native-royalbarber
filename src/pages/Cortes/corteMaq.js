@@ -1,35 +1,24 @@
-import  React  from "react-native";
+import React from "react-native";
 import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, ImageBackground } from 'react-native';
 import { estilo } from './../estilo';
 
-const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
-    <TouchableOpacity onPress={onPress} style={estilo.btnAgenda}>
-      <Text style={estilo.textAgenda}>{title}</Text>
-    </TouchableOpacity>
-  );
+const f1 = '../../assets/fundoBanner.png';
+const f2 = '../../assets/fundoCortes.jpeg';
 
-export default function corteMaquina({ navigation }){
-    return (
-        <View style={estilo.topo}>
-          <Image source={require('../../assets/logoLaranja.svg')} style={estilo.logo} />
-          <Text style={estilo.textOla}>Olá, <Text style={{ color: 'orange' }}>'USUÁRIO'</Text><br />Seja bem-vindo(a)</Text>
-          <CustomButton title="AGENDAR" onPress={() => navigation.navigate('Inicio')}
-            buttonStyle={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 98,
-              height: 44,
-              padding: 15,
-              backgroundColor: '#FF6D24',
-              borderRadius: 20,
-            }}
-            textStyle={{
-              fontSize: 14,
-              fontWeight: 600,
-              color: 'white',
-            }}
-          />
-
+export default function corteMaquina({ navigation }) {
+  return (
+    <SafeAreaView style={{}}>
+      <ImageBackground source={require(f1)} style={{ width: '100%', height: 600, justifyContent: 'center', alignItems: 'center', zIndex: 2 }} >
+        <View style={{ width: 180, height: 180, borderRadius: '100%', backgroundColor: 'black', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', }}>
+          <Image source={require('../../assets/cortemaq.jpeg')} style={{ width: '100%', height: '100%', zIndex: 2 }} />
         </View>
-    );
+
+        <Text style={{ marginTop: 35, fontSize: 24, color: '#FF6D24', fontWeight: 'bold', borderBottomWidth: 2, borderBottomColor: '#FF6D24' }}>Corte tradicional</Text>
+        <Text style={{ textAlign: 'left', borderLeftWidth: 2, color: 'white', fontSize: 18, fontWeight: '500', width: '80%', padding: 10, borderLeftColor: '#FF6D24', marginTop: 15, marginBottom: 30 }} >Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat voluptates facere aspernatur aperiam enim, dolores doloremque quas necessitatibus</Text>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FF6D24', padding: 13, borderWidth: 1, borderColor: '#FF6D24', borderRadius: 50 }} >R$ 84,90</Text>
+      
+      </ImageBackground>
+
+    </SafeAreaView>
+  );
 }
