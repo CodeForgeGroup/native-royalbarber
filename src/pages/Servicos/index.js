@@ -17,10 +17,10 @@ const CustomButton2 = ({ onPress, title, buttonStyle, textStyle }) => (
   </TouchableOpacity>
 );
 
-const gradiente = '../../assets/gradiente.svg';
+const gradiente = '../../fotos/gradiente.svg';
 // const ImgTeste = 'http://127.0.0.1:8000/storage/imagem/2wbLhrl2Ajw6EgBvrTPVc7IvI7ih9OunpNxhBfQ7.png';
 
-// const corteServ = '../../assets/corteServ.png'
+// const corteServ = '../../fotos/corteServ.png'
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -51,6 +51,7 @@ export default function Servicos({ navigation , route}) {
             Authorization: `Bearer ${token}`
           }
         });
+        setFotoServico(resposta.data.fotoServico)
         setServicos(resposta.data);
       } catch (error) {
         console.log('Erro ao procurar dados do Servico:', error);
@@ -58,6 +59,7 @@ export default function Servicos({ navigation , route}) {
     };
     fetchServicoData();
   }, []);
+  const fotoUrl = `http://127.0.0.1:8000/storage/${fotoServico}`;
 
   useEffect(() => {
     const fetchClienteData = async () => {
@@ -69,8 +71,6 @@ export default function Servicos({ navigation , route}) {
           }
         });
         console.log('Resposta Cliente:', resposta.data); // Log para verificar a resposta
-        setNomeCliente(resposta.data.nomeCliente);
-        setEmailCliente(resposta.data.emailCliente);
       } catch (error) {
         console.log('Erro ao procurar dados do cliente:', error);
       }
@@ -92,10 +92,11 @@ export default function Servicos({ navigation , route}) {
   const carouselRef = useRef(null);
 
   const _renderItem = ({item, index}) => {
+    console.log(item.fotoServico)
     return (
       <View style={{ marginTop: 60, marginBottom: 35, }}>
             
-      <Image source={require('../../assets/corteServ.png')} />
+      <Image source={require('../../fotos/corteServ.png')} />
       <View
         style={{
           backgroundColor: 'rgba(51, 51, 51, 0.8)',
@@ -111,15 +112,22 @@ export default function Servicos({ navigation , route}) {
         <Text style={{ color: 'white', fontSize: 20, fontWeight: 600 }}>{item.nomeServico}</Text>
       </View>
     </View>
+      
     );
   }
+
+ 
+
+
   return (
+
+    
     
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: 'white', }}>
       <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
 
         <View style={estilo.topo}>
-          <Image source={require('../../assets/logoLaranja.svg')} style={estilo.logo} />
+          <Image source={require('../../fotos/logoLaranja.svg')} style={estilo.logo} />
           <Text style={estilo.textOla}>Olá, <Text style={{ color: 'orange' }}>{nomeCliente}</Text><br />Seja bem-vindo(a)</Text>
           <CustomButton title="AGENDAR" onPress={() => navigation.navigate('Inicio')}
             buttonStyle={{
@@ -141,7 +149,7 @@ export default function Servicos({ navigation , route}) {
 
         <ImageBackground source={require(gradiente)} style={{ height: 500, alignItems: 'center', width:400 }}>
 
-          <Image source={require('../../assets/tesoura.svg')} style={{ marginTop: 15 }} />
+          <Image source={require('../../fotos/tesoura.svg')} style={{ marginTop: 15 }} />
           <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'white' }}>SERVIÇOS</Text>
 
           <Carousel
@@ -173,15 +181,16 @@ export default function Servicos({ navigation , route}) {
             
           }}
         >
+          console.log(servico.fotoServico)
+
           {servicos.map(servico=> (
-            
           <View key={servico.id} style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer' }}>
-            <Image source={require('../../assets/corteServ.png')} style={{borderColor: 'white', borderWidth: 1, width:90, height:85,}}  />
+            <Image source={{uri: servico.id.fotoServico}} style={{borderColor: 'white', borderWidth: 1, width:90, height:85,}}  />
             <View style={{ height: '70%', justifyContent: 'space-between', marginLeft: 25,width:180, }} >
               <Text style={{ fontSize: 16, fontWeight: 600, color: '#FF6D24' }}>{servico.nomeServico}</Text>
               <Text style={{ fontSize: 14 }}>{servico.descricaoServico}</Text>
             </View>
-            <Image source={require('../../assets/Arrow 5.png')} style={{marginLeft: '9%', cursor: 'pointer'}} />
+            <Image source={require('../../fotos/Arrow 5.png')} style={{marginLeft: '9%', cursor: 'pointer'}} />
             
           </View>
           ))};

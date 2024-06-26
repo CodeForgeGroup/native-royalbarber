@@ -8,22 +8,19 @@ import { Ionicons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icon
 
 import Home from './pages/Home';
 import Login from './pages/Login';
+
+// Serviços
 import Servicos from './pages/Servicos';
+import CorteMaq from './pages/Servicos/Cortes/corteMaq'
+
 import Agenda from './pages/Agenda';
 import Perfil from './pages/Perfil';
-import CorteMaq from './pages/Cortes/corteMaq'
+
 import { tintColor } from 'deprecated-react-native-prop-types/DeprecatedImagePropType';
 
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-const CustomBackButton = () => (
-  <Image
-    source={require('./assets/iconHomeC.svg')}
-    style={{ height: 22, width: 22}} // Adjust styles as needed
-  />
-);
 
 function MyTab({route}) {
   return (
@@ -82,6 +79,7 @@ function MyTab({route}) {
 
         return <Ionicons name="cut-outline" size={size} color={color} />
        }}} 
+       initialParams={{idCliente : route.params.idCliente}}
       />
 
       <Tab.Screen 
@@ -97,7 +95,7 @@ function MyTab({route}) {
           return <Ionicons name="calendar-number-outline" size={size} color={color} />
         } 
       }} 
-      initialParams={{idCliente : route.params.idCliente}}
+      initialParams={{idCliente : route.params.idCliente, idServico: route.params.idServico}}
       />
       
 

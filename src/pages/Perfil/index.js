@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, ImageBackground, TextInput, Linking, Alert, Platform, span } from 'react-native';
 import { estilo } from '../estilo'
-const fundo = '../../assets/fundoPerfil.png'
+const fundo = '../../fotos/fundoPerfil.png'
 
 const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
     <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>
@@ -25,8 +25,8 @@ export default function App() {
 
             <ImageBackground source={require(fundo)} style={{ alignItems: 'center', height: 'auto', borderWidth: 0 }}>
 
-                <Image source={require('../../assets/fundoFoto.png')} />
-                <Image source={require('../../assets/fotoPerfil.png')} style={{ position: 'absolute', top: 30 }} />
+                <Image source={require('../../fotos/fundoFoto.png')} />
+                <Image source={require('../../fotos/fotoPerfil.png')} style={{ position: 'absolute', top: 30 }} />
 
                 <Text style={{ fontSize: 24, fontWeight: 700, alignSelf: 'flex-start', marginTop: 55, marginLeft: 30, color: 'white' }}>Meus dados</Text>
 
