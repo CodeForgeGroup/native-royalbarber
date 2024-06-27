@@ -122,13 +122,13 @@ export default function Servicos({ navigation, route }) {
         }}>
           {servicos.map(servico => (
             <TouchableOpacity key={servico.id} onPress={() => goToCalendario(servico)}>
-              <View style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer' }}>
+              <View style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer', width:350, }}>
                 <Image source={require('../../fotos/corteServ.png')} style={{ borderColor: 'white', borderWidth: 1, width: 90, height: 85 }} />
                 <View style={{ height: '70%', justifyContent: 'space-between', marginLeft: 25, width: 180 }}>
                   <Text style={{ fontSize: 16, fontWeight: 600, color: '#FF6D24' }}>{servico.nomeServico}</Text>
                   <Text style={{ fontSize: 14 }}>{servico.descricaoServico}</Text>
                 </View>
-                <Image source={require('../../fotos/Arrow 5.png')} style={{ marginLeft: '12%' }} />
+                <Image source={require('../../fotos/Arrow 5.png')} style={{ marginLeft: '9%' }} />
               </View>
             </TouchableOpacity>
           ))}
