@@ -11,35 +11,14 @@ const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
   </TouchableOpacity>
 );
 
-const CustomButton2 = ({ onPress, title, buttonStyle, textStyle }) => (
-  <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>
-    <Text style={[estilo.textoBotao, textStyle]}>{title}</Text>
-  </TouchableOpacity>
-);
-
-const gradiente = '../../assets/gradiente.svg';
-// const ImgTeste = 'http://127.0.0.1:8000/storage/imagem/2wbLhrl2Ajw6EgBvrTPVc7IvI7ih9OunpNxhBfQ7.png';
-
-// const corteServ = '../../assets/corteServ.png'
+const gradiente = '../../fotos/gradiente.svg';
 
 const { width: screenWidth } = Dimensions.get('window');
 
-
-export default function Servicos({ navigation , route}) {
-  
-
-
-
+export default function Servicos({ navigation, route }) {
   const { idCliente } = route.params || {};
 
-  console.log("Cód Cliente: ", idCliente);
-  console.log(route.params);
-
   const [nomeCliente, setNomeCliente] = useState("");
-  const [emailCliente, setEmailCliente] = useState("");
-  const [nomeServico, setNomeServico] = useState("");
-  const [descricaoServico, setDescricaoServico] = useState("");
-  const [fotoServico, setFotoServico] = useState("");
   const [servicos, setServicos] = useState([]);
 
   useEffect(() => {
@@ -59,36 +38,6 @@ export default function Servicos({ navigation , route}) {
     fetchServicoData();
   }, []);
 
-  useEffect(() => {
-    const fetchClienteData = async () => {
-      try {
-        const token = await AsyncStorage.getItem('userToken');
-        const resposta = await axios.get(`http://127.0.0.1:8000/cliente/${idCliente}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        console.log('Resposta Cliente:', resposta.data); // Log para verificar a resposta
-        setNomeCliente(resposta.data.nomeCliente);
-        setEmailCliente(resposta.data.emailCliente);
-      } catch (error) {
-        console.log('Erro ao procurar dados do cliente:', error);
-      }
-    };
-    if (idCliente) {
-      fetchClienteData();
-    }
-  }, [idCliente]);
-
-  const [entries,  setEntries] = useState([
-    {
-       laranjinha: 'Item 1'
-    },
-    { laranjinha: 'Item 2' },
-    { laranjinha: 'Item 3' },
-    { laranjinha: 'Item 4' },
-  ]);
-
   const goToCalendario = (servico) => {
     navigation.navigate('Calendario', {
       idServico: servico.id,
@@ -98,39 +47,38 @@ export default function Servicos({ navigation , route}) {
     });
   };
 
-  const carouselRef = useRef(null);
-
-  const _renderItem = ({item, index}) => {
+  const _renderItem = ({ item, index }) => {
     return (
-      <View style={{ marginTop: 60, marginBottom: 35, }}>
-            
-      <Image source={require('../../assets/corteServ.png')} />
-      <View
-        style={{
-          backgroundColor: 'rgba(51, 51, 51, 0.8)',
-          height: 73, alignItems: 'center',
-          justifyContent: 'center',
-          position: 'absolute',
-          top: 228,
-          width: '100%',
-          borderBottomStartRadius: 15,
-          borderBottomEndRadius: 15,
-        }}
-      >
-        <Text style={{ color: 'white', fontSize: 20, fontWeight: 600 }}>{item.nomeServico}</Text>
+      <View style={{ marginTop: 60, marginBottom: 35 }}>
+        <Image source={require('../../fotos/corteServ.png')} />
+        <View
+          style={{
+            backgroundColor: 'rgba(51, 51, 51, 0.8)',
+            height: 73,
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            top: 228,
+            width: '100%',
+            borderBottomStartRadius: 15,
+            borderBottomEndRadius: 15,
+          }}
+        >
+          <Text style={{ color: 'white', fontSize: 20, fontWeight: 600 }}>{item.nomeServico}</Text>
+        </View>
       </View>
-    </View>
     );
-  }
-  return (
-    
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: 'white', }}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
+  };
 
+  return (
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: 'white' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
         <View style={estilo.topo}>
-          <Image source={require('../../assets/logoLaranja.svg')} style={estilo.logo} />
+          <Image source={require('../../fotos/logoLaranja.svg')} style={estilo.logo} />
           <Text style={estilo.textOla}>Olá, <Text style={{ color: 'orange' }}>{nomeCliente}</Text><br />Seja bem-vindo(a)</Text>
-          <CustomButton title="AGENDAR" onPress={() => navigation.navigate('Inicio')}
+          <CustomButton
+            title="AGENDAR"
+            onPress={() => navigation.navigate('Inicio')}
             buttonStyle={{
               alignItems: 'center',
               justifyContent: 'center',
@@ -148,65 +96,52 @@ export default function Servicos({ navigation , route}) {
           />
         </View>
 
-        <ImageBackground source={require(gradiente)} style={{ height: 500, alignItems: 'center', width:400 }}>
-
-          <Image source={require('../../assets/tesoura.svg')} style={{ marginTop: 15 }} />
+        <ImageBackground source={require(gradiente)} style={{ height: 500, alignItems: 'center', width: 400 }}>
+          <Image source={require('../../fotos/tesoura.svg')} style={{ marginTop: 15 }} />
           <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'white' }}>SERVIÇOS</Text>
 
           <Carousel
-                    ref={carouselRef}
-                    data={servicos}
-                    renderItem={_renderItem}
-                    sliderWidth={screenWidth}
-                    itemWidth={screenWidth * 0.63}
-                    layout={'default'}
-                    // loop={true}
-                    firstItem={1}
-                  />
-
-        
+            data={servicos}
+            renderItem={_renderItem}
+            sliderWidth={screenWidth}
+            itemWidth={screenWidth * 0.63}
+            layout={'default'}
+            firstItem={1}
+          />
         </ImageBackground>
-        
 
-        <View
-        
-          style={{
-            backgroundColor: 'black',
-            borderTopEndRadius: 24,
-            borderTopStartRadius: 24,
-            height: '100%',
-            position: 'relative',
-            top: -21,
-            alignItems: 'center',
-            justifyContent: 'space-evenly'
-            
-          }}
-        >
-          {servicos.map(servico=> (
-            
-          <View  key={servico.id} style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer'}}>
-            <Image source={require('../../assets/corteServ.png')} style={{borderColor: 'white', borderWidth: 1, width:90, height:85,}}  />
-            <View style={{ height: '70%', justifyContent: 'space-between', marginLeft: 25,width:180, }} >
-              <Text style={{ fontSize: 16, fontWeight: 600, color: '#FF6D24' }}>{servico.nomeServico}</Text>
-              <Text style={{ fontSize: 14 }}>{servico.descricaoServico}</Text>
-            </View>
-            <TouchableOpacity onPress={() => goToCalendario(servico)} style={{marginLeft:'9%'}}>
-          <Image source={require('../../assets/Arrow 5.png')} style={{ marginLeft: '12%' }} />
-        </TouchableOpacity>
-          </View>
-          ))};
+        <View style={{
+          backgroundColor: 'black',
+          borderTopEndRadius: 24,
+          borderTopStartRadius: 24,
+          height: '100%',
+          position: 'relative',
+          top: -21,
+          alignItems: 'center',
+          justifyContent: 'space-evenly'
+        }}>
+          {servicos.map(servico => (
+            <TouchableOpacity key={servico.id} onPress={() => goToCalendario(servico)}>
+              <View style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer' }}>
+                <Image source={require('../../fotos/corteServ.png')} style={{ borderColor: 'white', borderWidth: 1, width: 90, height: 85 }} />
+                <View style={{ height: '70%', justifyContent: 'space-between', marginLeft: 25, width: 180 }}>
+                  <Text style={{ fontSize: 16, fontWeight: 600, color: '#FF6D24' }}>{servico.nomeServico}</Text>
+                  <Text style={{ fontSize: 14 }}>{servico.descricaoServico}</Text>
+                </View>
+                <Image source={require('../../fotos/Arrow 5.png')} style={{ marginLeft: '12%' }} />
+              </View>
+            </TouchableOpacity>
+          ))}
 
           <TouchableOpacity
             onPress={() => navigation.navigate('Calendario')}
-            style={{color: 'white', padding: 10, backgroundColor: 'orange', borderRadius: 16}}
-          >CORTE MAQUINA</TouchableOpacity>
+            style={{ color: 'white', padding: 10, backgroundColor: 'orange', borderRadius: 16 }}
+          >
+            CORTE MAQUINA
+          </TouchableOpacity>
 
         </View>
       </SafeAreaView>
     </ScrollView>
   );
-
 }
-
-
-

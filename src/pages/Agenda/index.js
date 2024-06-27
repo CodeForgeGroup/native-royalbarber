@@ -5,8 +5,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { format } from 'date-fns';
 
-const fundo = '../../assets/fundoAgenda.png';
-const img = '../../assets/fundoCompro.png';
+const fundo = '../../fotos/fundoAgenda.png';
+const img = '../../fotos/fundoCompro.png';
 
 const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
   <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>

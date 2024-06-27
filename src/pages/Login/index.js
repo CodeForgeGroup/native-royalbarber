@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 import axios from "axios"; //Requisição HTTP para a API
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
-const ImgBack = '../../../assets/fundo.png';
+const ImgBack = '../../fotos/fundo.png';
 
 const CustomButton = ({ onPress, title }) => (
   <TouchableOpacity onPress={onPress} style={estilo.button}>
@@ -74,7 +74,7 @@ export default function Login({ navigation }) {
     <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
       <ImageBackground source={require(ImgBack)} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', }}>
         <Image
-          source={require('../../../assets/logo-royalbarberBRANCO.png')}
+          source={require('../../fotos/logo-royalbarberBRANCO.png')}
           style={{ width: 250, height: 140, marginBottom: 0, position: 'relative' }}
         />
         <Text style={{ fontSize: 50, fontWeight: 'bold', color: 'white', marginTop: 0, marginBottom: 10, }}>LOGIN</Text>

@@ -7,13 +7,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Servicos from '../Servicos';
 
 
-const banner = '../../assets/fundoBanner.png'
+const banner = '../../fotos/fundoBanner.png'
 
-const servico = '../../assets/fundoServico.png'
+const servico = '../../fotos/fundoServico.png'
 
-const agendamentos = '../../assets/fundoAgendamento.png'
+const agendamentos = '../../fotos/fundoAgendamento.png'
 
-const servico1 = '../../assets/servico1.jpg';
+const servico1 = '../../fotos/servico1.jpg';
 
 
 const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
@@ -35,15 +35,15 @@ export default function Home({ navigation, route }) {
   const [entries,  setEntries] = useState([
     {
        title: 'Item 1',
-       img: require('../../assets/servico1.png'),
+       img: require('../../fotos/servico1.png'),
     },
     {
        title: 'Item 2',
-       img: require('../../assets/servico2.png'),
+       img: require('../../fotos/servico2.png'),
     },
     {
        title: 'Item 3',
-       img: require('../../assets/servico3.png'),
+       img: require('../../fotos/servico3.png'),
     },    
   ]);
 
@@ -105,7 +105,7 @@ export default function Home({ navigation, route }) {
 
         {/* TOPO */}
         <View style={estilo.topo}>
-          <Image source={require('../../assets/logoLaranja.svg')} style={estilo.logo} />
+          <Image source={require('../../fotos/logoLaranja.svg')} style={estilo.logo} />
           <Text style={estilo.textOla}>Olá, <Text style={{ color: 'orange' }}>{nomeCliente} </Text><br />Seja bem-vindo(a)</Text>
           <CustomButton title="AGENDAR" onPress={() => navigation.navigate('Inicio')}
             buttonStyle={{
@@ -318,12 +318,12 @@ export default function Home({ navigation, route }) {
             {/* Funcionários */}
 
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 23}}>
-              <Image source={require('../../assets/ArrowEsq.svg')} style={{ cursor: 'pointer' }}/>
+              <Image source={require('../../fotos/ArrowEsq.svg')} style={{ cursor: 'pointer' }}/>
               <View style={{ borderRadius: 15, backgroundColor: '#FF6D24', justifyContent: 'center', alignItems: 'center', marginTop: 55 }}>
                 <Text style={{ paddingVertical: 7, fontSize: 22, fontWeight: 500, color: 'white' }}>Alexandre</Text>
-                <Image source={require('../../assets/funcionario1.png')} style={{}} />
+                <Image source={require('../../fotos/funcionario1.png')} style={{}} />
               </View>
-              <Image source={require('../../assets/ArrowDir.svg')} style={{ cursor: 'pointer' }}/>   
+              <Image source={require('../../fotos/ArrowDir.svg')} style={{ cursor: 'pointer' }}/>   
             </View>
 
 
