@@ -41,6 +41,10 @@ const CalendarScreen = ({ navigation, route }) => {
         markedDates={{
           [selectedDate]: { selected: true, marked: true, selectedColor: 'blue' }
         }}
+
+        theme={{
+          selectedDayTextColor: '#FF6D24'
+        }}
       />
       <Text>Serviço Selecionado: {nomeServico}</Text>
       <Text>Descrição do Serviço: {descricaoServico}</Text>
