@@ -15,6 +15,7 @@ import CorteMaq from './pages/Servicos/Cortes/corteMaq';
 
 import Agenda from './pages/Agenda';
 import Perfil from './pages/Perfil';
+import Agendamento from './pages/Agendamento';
 // import CorteMaq from './pages/Cortes/corteMaq';
 import CalendarScreen from './pages/Calendario/index';
 
@@ -162,6 +163,15 @@ export default function Routes() {
         options={{ 
           headerShown: true,
           title: 'Calendário'
+           
+        }} 
+      />
+        <Stack.Screen 
+        name="Agendamento"
+        component={Agendamento} 
+        options={{ 
+          headerShown: true,
+          title: 'Agendamento'
            
         }} 
       />
