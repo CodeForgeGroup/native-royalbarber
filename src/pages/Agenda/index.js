@@ -94,7 +94,7 @@ export default function Perfil({ navigation, route }) {
   return (
     <ScrollView>
       <SafeAreaView style={{ flex: 1 }}>
-        <ImageBackground source={require(fundo)} style={{ flex: 1, alignItems: 'center', width: 400, height: 800 }}>
+        <ImageBackground source={require(fundo)} style={{ flex: 1, alignItems: 'center', width: 400, height:'100%' }}>
           <View style={{ alignSelf: 'flex-start', borderBottomRightRadius: 20, borderTopRightRadius: 20, backgroundColor: '#FD7E14', width: 255, height: 48, marginTop: 30, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ fontSize: 20, fontWeight: 600, color: 'white' }}> MEUS COMPROMISSOS </Text>
           </View>
@@ -146,6 +146,7 @@ export default function Perfil({ navigation, route }) {
 
           <CustomButton
             title="AGENDAR"
+            onPress={() => navigation.navigate('Serviços')}
             buttonStyle={{
               alignItems: 'center',
               justifyContent: 'center',

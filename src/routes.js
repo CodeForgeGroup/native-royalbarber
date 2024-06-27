@@ -11,7 +11,8 @@ import Login from './pages/Login';
 import Servicos from './pages/Servicos';
 import Agenda from './pages/Agenda';
 import Perfil from './pages/Perfil';
-import CorteMaq from './pages/Cortes/corteMaq'
+import CorteMaq from './pages/Cortes/corteMaq';
+import CalendarScreen from './pages/Calendario/index';
 import { tintColor } from 'deprecated-react-native-prop-types/DeprecatedImagePropType';
 
 
@@ -82,6 +83,7 @@ function MyTab({route}) {
 
         return <Ionicons name="cut-outline" size={size} color={color} />
        }}} 
+       initialParams={{idCliente : route.params.idCliente}}
       />
 
       <Tab.Screen 
@@ -155,6 +157,15 @@ export default function Routes() {
         headerShown: true,
         title: 'Corte na máquina' 
       }} 
+      />
+      <Stack.Screen 
+        name="Calendario"
+        component={CalendarScreen} 
+        options={{ 
+          headerShown: true,
+          title: 'Calendário'
+           
+        }} 
       />
     </Stack.Navigator>
   );

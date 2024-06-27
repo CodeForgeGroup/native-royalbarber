@@ -89,6 +89,15 @@ export default function Servicos({ navigation , route}) {
     { laranjinha: 'Item 4' },
   ]);
 
+  const goToCalendario = (servico) => {
+    navigation.navigate('Calendario', {
+      idServico: servico.id,
+      nomeServico: servico.nomeServico,
+      descricaoServico: servico.descricaoServico,
+      idCliente: idCliente,
+    });
+  };
+
   const carouselRef = useRef(null);
 
   const _renderItem = ({item, index}) => {
@@ -165,7 +174,7 @@ export default function Servicos({ navigation , route}) {
             backgroundColor: 'black',
             borderTopEndRadius: 24,
             borderTopStartRadius: 24,
-            height: 575,
+            height: '100%',
             position: 'relative',
             top: -21,
             alignItems: 'center',
@@ -175,19 +184,20 @@ export default function Servicos({ navigation , route}) {
         >
           {servicos.map(servico=> (
             
-          <View key={servico.id} style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer' }}>
+          <View  key={servico.id} style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer'}}>
             <Image source={require('../../assets/corteServ.png')} style={{borderColor: 'white', borderWidth: 1, width:90, height:85,}}  />
             <View style={{ height: '70%', justifyContent: 'space-between', marginLeft: 25,width:180, }} >
               <Text style={{ fontSize: 16, fontWeight: 600, color: '#FF6D24' }}>{servico.nomeServico}</Text>
               <Text style={{ fontSize: 14 }}>{servico.descricaoServico}</Text>
             </View>
-            <Image source={require('../../assets/Arrow 5.png')} style={{marginLeft: '9%', cursor: 'pointer'}} />
-            
+            <TouchableOpacity onPress={() => goToCalendario(servico)} style={{marginLeft:'9%'}}>
+          <Image source={require('../../assets/Arrow 5.png')} style={{ marginLeft: '12%' }} />
+        </TouchableOpacity>
           </View>
           ))};
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('CorteMaq')}
+            onPress={() => navigation.navigate('Calendario')}
             style={{color: 'white', padding: 10, backgroundColor: 'orange', borderRadius: 16}}
           >CORTE MAQUINA</TouchableOpacity>
 
