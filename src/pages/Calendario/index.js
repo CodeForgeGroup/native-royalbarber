@@ -87,7 +87,7 @@ const CalendarScreen = ({ navigation, route }) => {
       <Text>Data Selecionada: {selectedDate}</Text>
       <CustomButton
             title="AGENDAR"
-            onPress={() => navigation.navigate('Serviços')}
+            onPress={() => navigation.navigate('Agendamento')}
             buttonStyle={{
               alignItems: 'center',
               justifyContent: 'center',
