@@ -4,6 +4,10 @@ import { Calendar } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { estilo } from './../estilo';
+import moment from 'moment';
+import 'moment/locale/pt-br';
+
+moment.locale('pt-br');
 
 const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
     <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>
@@ -48,15 +52,43 @@ const CalendarScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ backgroundColor: '#1B1B1B' }}>
+      
       <Calendar
         onDayPress={(day) => {
           setSelectedDate(day.dateString);
           console.log('selected day', day);
         }}
         markedDates={{
-          [selectedDate]: { selected: true, marked: true, selectedColor: 'blue' }
+          [selectedDate]: { selected: true, marked: true}
         }}
+
+        locale={{
+          monthNames: [
+            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+          ],
+          monthNamesShort: [
+            'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
+            'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+          ],
+          dayNames: [
+            'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'
+          ],
+          dayNamesShort: [
+            'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
+          ],
+          today: 'Hoje'
+        }}
+
+        theme={{
+          selectedDayBackgroundColor: '#ff6d24',
+          calendarBackground: '#1B1B1B',
+          dayTextColor: 'white',
+          agendaDayTextColor: '#ff6d24'
+          
+        }}
+    
       />
       <Text>Serviço Selecionado: {nomeServico}</Text>
       <Text>Descrição do Serviço: {descricaoServico}</Text>
