@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Image, ImageBackground, Dimensions } from 'react-native';
 import { estilo } from './../estilo';
 import Carousel from 'react-native-snap-carousel';
@@ -16,7 +16,7 @@ const gradiente = '../../fotos/gradiente.svg';
 const { width: screenWidth } = Dimensions.get('window');
 
 export default function Agendamento({ navigation, route }) {
-  const { idCliente } = route.params || {};
+  const { idServico, nomeServico, descricaoServico, idCliente, dataSelecionada } = route.params || {};
 
   const [nomeCliente, setNomeCliente] = useState("");
   const [servicos, setServicos] = useState([]);
@@ -122,7 +122,7 @@ export default function Agendamento({ navigation, route }) {
         }}>
           {servicos.map(servico => (
             <TouchableOpacity key={servico.id} onPress={() => goToCalendario(servico)}>
-              <View style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer', width:350, }}>
+              <View style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer', width: 350 }}>
                 <Image source={require('../../fotos/corteServ.png')} style={{ borderColor: 'white', borderWidth: 1, width: 90, height: 85 }} />
                 <View style={{ height: '70%', justifyContent: 'space-between', marginLeft: 25, width: 180 }}>
                   <Text style={{ fontSize: 16, fontWeight: 600, color: '#FF6D24' }}>{servico.nomeServico}</Text>
