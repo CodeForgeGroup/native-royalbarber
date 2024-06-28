@@ -24,6 +24,14 @@ const CustomButton2 = ({ onPress, title }) => (
 
 export default function Login({ navigation }) {
 
+  const storeToken = async (token) => {
+    try {
+        await AsyncStorage.setItem('access_token', token);
+    } catch (error) {
+        console.error('Erro ao armazenar o token', error);
+    }
+};
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
@@ -57,7 +65,7 @@ export default function Login({ navigation }) {
           //Armazenar o token na memória do APP
           await AsyncStorage.setItem('userToken', token);
 
-
+          storeToken(resposta.data.access_token)
 
           navigation.navigate('Inicio', { idCliente })
         }
