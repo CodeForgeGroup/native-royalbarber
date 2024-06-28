@@ -72,6 +72,8 @@ export default function Perfil({ navigation, route }) {
   const handleCancel = async (idAgendamento) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
+
+      
       await axios.put(`http://127.0.0.1:8000/agendamentos/${idAgendamento}`, {
         statusAgendamento: 'CANCELADO'
 
