@@ -10,13 +10,13 @@ import 'moment/locale/pt-br';
 moment.locale('pt-br');
 
 const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
-    <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>
-      <Text style={[estilo.textoBotao, textStyle]}>{title}</Text>
-    </TouchableOpacity>
-  );
+  <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>
+    <Text style={[estilo.textoBotao, textStyle]}>{title}</Text>
+  </TouchableOpacity>
+);
 
 const CalendarScreen = ({ navigation, route }) => {
-  const { idServico, nomeServico, descricaoServico, idCliente } = route.params;
+  const { idServico, nomeServico, descricaoServico, idCliente, duracaoServico } = route.params;
 
   const [selectedDate, setSelectedDate] = useState('');
   const [nomeCliente, setNomeCliente] = useState("");
@@ -48,28 +48,27 @@ const CalendarScreen = ({ navigation, route }) => {
       descricaoServico: descricaoServico,
       idCliente: idCliente,
       dataSelecionada: selectedDate,
+      duracaoServico: duracaoServico,
     });
   };
 
   return (
     <View style={{ backgroundColor: '#1B1B1B' }}>
-      
       <Calendar
         onDayPress={(day) => {
           setSelectedDate(day.dateString);
           console.log('selected day', day);
         }}
         markedDates={{
-          [selectedDate]: { selected: true, marked: true}
+          [selectedDate]: { selected: true, marked: true }
         }}
-
         locale={{
           monthNames: [
-            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
             'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
           ],
           monthNamesShort: [
-            'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
+            'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
             'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
           ],
           dayNames: [
@@ -80,15 +79,12 @@ const CalendarScreen = ({ navigation, route }) => {
           ],
           today: 'Hoje'
         }}
-
         theme={{
           selectedDayBackgroundColor: '#ff6d24',
           calendarBackground: '#1B1B1B',
           dayTextColor: 'white',
           agendaDayTextColor: '#ff6d24'
-          
         }}
-    
       />
       <Text>Serviço Selecionado: {nomeServico}</Text>
       <Text>Descrição do Serviço: {descricaoServico}</Text>

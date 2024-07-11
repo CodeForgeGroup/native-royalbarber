@@ -16,7 +16,7 @@ const gradiente = '../../fotos/gradiente.svg';
 const { width: screenWidth } = Dimensions.get('window');
 
 export default function Agendamento({ navigation, route }) {
-  const { idServico, nomeServico, descricaoServico, idCliente, dataSelecionada } = route.params || {};
+  const { idServico, nomeServico, descricaoServico, idCliente, dataSelecionada, duracaoServico } = route.params || {};
 
   const [nomeCliente, setNomeCliente] = useState("");
   const [servicos, setServicos] = useState([]);
@@ -40,22 +40,26 @@ export default function Agendamento({ navigation, route }) {
     fetchFuncionarios();
   }, []);
 
-  useEffect(() => {
-    const fetchServicoData = async () => {
-      try {
-        const token = await AsyncStorage.getItem('userToken');
-        const resposta = await axios.get(`http://127.0.0.1:8000/servico/show`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        setServicos(resposta.data);
-      } catch (error) {
-        console.log('Erro ao procurar dados do Servico:', error);
-      }
-    };
-    fetchServicoData();
-  }, []);
+  const fetchHorarios = async (funcionarioId) => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await axios.get(`http://127.0.0.1:8000/horarios/disponiveis`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        params: {
+          funcionarioId: funcionarioId,
+          dataHorarios: dataSelecionada,
+          clienteId: idCliente,
+          duracaoEmMinutos: duracaoServico, // Substitua pelo valor correto
+       
+        }
+      });
+      console.log(resposta.data);
+    } catch (error) {
+      console.log('Erro ao buscar horários disponíveis:', error);
+    }
+  };
 
   const goToCalendario = (servico) => {
     navigation.navigate('Calendario', {
@@ -72,7 +76,7 @@ export default function Agendamento({ navigation, route }) {
       : `http://codegroupdev.com.br/royalbarber/royalbarber/storage/app/public/${item.fotoFuncionario}`;
 
     return (
-      <TouchableOpacity onPress={() => goToCalendario(item)}>
+      <TouchableOpacity >
         <View style={{ marginTop: 60, marginBottom: 35 }}>
           <Image source={{ uri: fotoURL }} style={{ width: '100%', height: 300, borderRadius:20 }} />
           <View style={{ backgroundColor: 'rgba(51, 51, 51, 0.8)', height: 73, alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 228, width: '100%', borderBottomStartRadius: 15, borderBottomEndRadius: 15 }}>
@@ -80,7 +84,14 @@ export default function Agendamento({ navigation, route }) {
             <Text style={{ color: '#ff6d24', fontSize: 16 }}>{item.especialidadeFuncionario}</Text>
           </View>
         </View>
+        <CustomButton
+            title="Ver horários disponíveis"
+            onPress={() => fetchHorarios(item.id)}
+            buttonStyle={{ backgroundColor: 'transparent', marginTop: 4, borderRadius:60, borderWidth:1, borderColor:'black', alignItems:'center', height:40, }}
+            textStyle={{ color: 'white', alignItems: 'center', fontWeight:'bold', marginTop:7, fontSize:17}}
+          />
       </TouchableOpacity>
+      
     );
   };
 
@@ -110,7 +121,7 @@ export default function Agendamento({ navigation, route }) {
           />
         </View>
 
-        <ImageBackground source={require(gradiente)} style={{ height: 500, alignItems: 'center', width: 400 }}>
+        <ImageBackground source={require(gradiente)} style={{ height: 600, alignItems: 'center', width: 400 }}>
           <Image source={require('../../fotos/tesoura.svg')} style={{ marginTop: 15 }} />
           <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'white' }}>BARBEIROS</Text>
 

@@ -43,6 +43,7 @@ export default function Servicos({ navigation, route }) {
       idServico: servico.id,
       nomeServico: servico.nomeServico,
       descricaoServico: servico.descricaoServico,
+      duracaoServico: servico.duracaoServico,
       idCliente: idCliente,
     });
   };
