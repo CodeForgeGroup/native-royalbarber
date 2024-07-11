@@ -21,6 +21,25 @@ export default function Agendamento({ navigation, route }) {
   const [nomeCliente, setNomeCliente] = useState("");
   const [servicos, setServicos] = useState([]);
 
+  const [funcionarios, setFuncionarios] = useState([]);
+
+  useEffect(() => {
+    const fetchFuncionarios = async () => {
+      try {
+        const token = await AsyncStorage.getItem('userToken');
+        const resposta = await axios.get('http://127.0.0.1:8000/funcionarios/showBarbeiros', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setFuncionarios(resposta.data);
+      } catch (error) {
+        console.log('Erro ao buscar dados dos funcionários:', error);
+      }
+    };
+    fetchFuncionarios();
+  }, []);
+
   useEffect(() => {
     const fetchServicoData = async () => {
       try {
@@ -47,26 +66,21 @@ export default function Agendamento({ navigation, route }) {
     });
   };
 
-  const _renderItem = ({ item, index }) => {
+  const _renderItem = ({ item }) => {
+    const fotoURL = item.fotoFuncionario === "SEM IMAGEM" 
+      ? 'http://codegroupdev.com.br/royalbarber/royalbarber/public/images/royalBarberFunc.png'
+      : `http://codegroupdev.com.br/royalbarber/royalbarber/storage/app/public/${item.fotoFuncionario}`;
+
     return (
-      <View style={{ marginTop: 60, marginBottom: 35 }}>
-        <Image source={require('../../fotos/corteServ.png')} />
-        <View
-          style={{
-            backgroundColor: 'rgba(51, 51, 51, 0.8)',
-            height: 73,
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'absolute',
-            top: 228,
-            width: '100%',
-            borderBottomStartRadius: 15,
-            borderBottomEndRadius: 15,
-          }}
-        >
-          <Text style={{ color: 'white', fontSize: 20, fontWeight: 600 }}>{item.nomeServico}</Text>
+      <TouchableOpacity onPress={() => goToCalendario(item)}>
+        <View style={{ marginTop: 60, marginBottom: 35 }}>
+          <Image source={{ uri: fotoURL }} style={{ width: '100%', height: 300, borderRadius:20 }} />
+          <View style={{ backgroundColor: 'rgba(51, 51, 51, 0.8)', height: 73, alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 228, width: '100%', borderBottomStartRadius: 15, borderBottomEndRadius: 15 }}>
+            <Text style={{ color: 'white', fontSize: 20, fontWeight: '600' }}>{item.nomeFuncionario}</Text>
+            <Text style={{ color: '#ff6d24', fontSize: 16 }}>{item.especialidadeFuncionario}</Text>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -98,10 +112,10 @@ export default function Agendamento({ navigation, route }) {
 
         <ImageBackground source={require(gradiente)} style={{ height: 500, alignItems: 'center', width: 400 }}>
           <Image source={require('../../fotos/tesoura.svg')} style={{ marginTop: 15 }} />
-          <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'white' }}>SERVIÇOS</Text>
+          <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'white' }}>BARBEIROS</Text>
 
           <Carousel
-            data={servicos}
+            data={funcionarios}
             renderItem={_renderItem}
             sliderWidth={screenWidth}
             itemWidth={screenWidth * 0.63}
