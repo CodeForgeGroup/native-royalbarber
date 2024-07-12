@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Image, ImageBackground, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Image, ImageBackground, Dimensions, FlatList } from 'react-native';
 import { estilo } from './../estilo';
 import Carousel from 'react-native-snap-carousel';
 import axios from 'axios';
@@ -20,8 +20,8 @@ export default function Agendamento({ navigation, route }) {
 
   const [nomeCliente, setNomeCliente] = useState("");
   const [servicos, setServicos] = useState([]);
-
   const [funcionarios, setFuncionarios] = useState([]);
+  const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
 
   useEffect(() => {
     const fetchFuncionarios = async () => {
@@ -43,7 +43,7 @@ export default function Agendamento({ navigation, route }) {
   const fetchHorarios = async (funcionarioId) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      const resposta = await axios.get(`http://127.0.0.1:8000/horarios/disponiveis`, {
+      const resposta = await axios.get('http://127.0.0.1:8000/horarios/disponiveis', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -51,11 +51,10 @@ export default function Agendamento({ navigation, route }) {
           funcionarioId: funcionarioId,
           dataHorarios: dataSelecionada,
           clienteId: idCliente,
-          duracaoEmMinutos: duracaoServico, // Substitua pelo valor correto
-       
+          duracaoEmMinutos: duracaoServico // Substitua pelo valor correto
         }
       });
-      console.log(resposta.data);
+      setHorariosDisponiveis(resposta.data);
     } catch (error) {
       console.log('Erro ao buscar horários disponíveis:', error);
     }
@@ -76,7 +75,7 @@ export default function Agendamento({ navigation, route }) {
       : `http://codegroupdev.com.br/royalbarber/royalbarber/storage/app/public/${item.fotoFuncionario}`;
 
     return (
-      <TouchableOpacity >
+      <TouchableOpacity>
         <View style={{ marginTop: 60, marginBottom: 35 }}>
           <Image source={{ uri: fotoURL }} style={{ width: '100%', height: 300, borderRadius:20 }} />
           <View style={{ backgroundColor: 'rgba(51, 51, 51, 0.8)', height: 73, alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 228, width: '100%', borderBottomStartRadius: 15, borderBottomEndRadius: 15 }}>
@@ -91,8 +90,26 @@ export default function Agendamento({ navigation, route }) {
             textStyle={{ color: 'white', alignItems: 'center', fontWeight:'bold', marginTop:7, fontSize:17}}
           />
       </TouchableOpacity>
-      
     );
+  };
+
+  const renderHorarios = () => {
+    return (
+      <View style={styles.horariosContainer}>
+        {horariosDisponiveis.map((item) => (
+          <TouchableOpacity key={item.horario_id} onPress={() => handleHorarioSelect(item)}>
+            <View style={styles.horarioContainer}>
+              <Text style={styles.horarioText}>{item.horarios}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
+  };
+
+  const handleHorarioSelect = (horario) => {
+    // Adicione a lógica para lidar com a seleção do horário aqui.
+    console.log('Horário selecionado:', horario);
   };
 
   return (
@@ -158,15 +175,31 @@ export default function Agendamento({ navigation, route }) {
             </TouchableOpacity>
           ))}
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Calendario')}
-            style={{ color: 'white', padding: 10, backgroundColor: 'orange', borderRadius: 16 }}
-          >
-            CORTE MAQUINA
-          </TouchableOpacity>
-
+          {horariosDisponiveis.length > 0 && renderHorarios()}
         </View>
       </SafeAreaView>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  horariosContainer: {
+    flexDirection: 'row', // Ajuste a direção do layout para horizontal
+    flexWrap: 'wrap', // Permite que os itens se movam para a próxima linha se não houver espaço suficiente
+    justifyContent: 'center', // Centraliza os itens horizontalmente
+  },
+  horarioContainer: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#ff6d24',
+    padding: 10,
+    margin: 5, // Ajuste de margem para espaçamento entre os horários
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  horarioText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
