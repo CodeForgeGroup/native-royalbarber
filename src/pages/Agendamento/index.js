@@ -22,6 +22,7 @@ export default function Agendamento({ navigation, route }) {
   const [servicos, setServicos] = useState([]);
   const [funcionarios, setFuncionarios] = useState([]);
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
+  const [horarioSelecionado, setHorarioSelecionado] = useState(null);
 
   useEffect(() => {
     const fetchFuncionarios = async () => {
@@ -60,13 +61,27 @@ export default function Agendamento({ navigation, route }) {
     }
   };
 
-  const goToCalendario = (servico) => {
-    navigation.navigate('Calendario', {
-      idServico: servico.id,
-      nomeServico: servico.nomeServico,
-      descricaoServico: servico.descricaoServico,
-      idCliente: idCliente,
-    });
+  const handleFinalizar = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await axios.post('http://127.0.0.1:8000/agendamentos', {
+        idServico,
+        nomeServico,
+        descricaoServico,
+        idCliente,
+        dataSelecionada,
+        horarioSelecionado,
+        duracaoServico
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('Agendamento realizado com sucesso:', resposta.data);
+      // Navegue para a tela de confirmação ou outra tela apropriada
+    } catch (error) {
+      console.log('Erro ao realizar agendamento:', error);
+    }
   };
 
   const _renderItem = ({ item }) => {
@@ -84,11 +99,11 @@ export default function Agendamento({ navigation, route }) {
           </View>
         </View>
         <CustomButton
-            title="Ver horários disponíveis"
-            onPress={() => fetchHorarios(item.id)}
-            buttonStyle={{ backgroundColor: 'transparent', marginTop: 4, borderRadius:60, borderWidth:1, borderColor:'black', alignItems:'center', height:40, }}
-            textStyle={{ color: 'white', alignItems: 'center', fontWeight:'bold', marginTop:7, fontSize:17}}
-          />
+          title="Ver horários disponíveis"
+          onPress={() => fetchHorarios(item.id)}
+          buttonStyle={{ backgroundColor: 'transparent', marginTop: 4, borderRadius:60, borderWidth:1, borderColor:'black', alignItems:'center', height:40 }}
+          textStyle={{ color: 'white', alignItems: 'center', fontWeight:'bold', marginTop:7, fontSize:17}}
+        />
       </TouchableOpacity>
     );
   };
@@ -108,8 +123,8 @@ export default function Agendamento({ navigation, route }) {
   };
 
   const handleHorarioSelect = (horario) => {
-    // Adicione a lógica para lidar com a seleção do horário aqui.
     console.log('Horário selecionado:', horario);
+    setHorarioSelecionado(horario);
   };
 
   return (
@@ -152,6 +167,33 @@ export default function Agendamento({ navigation, route }) {
           />
         </ImageBackground>
 
+        {horariosDisponiveis.length > 0 && renderHorarios()}
+
+        {horarioSelecionado && (
+  <View style={styles.buttonContainer}>
+    <CustomButton
+      title="Confirmar"
+      onPress={handleFinalizar}
+      buttonStyle={{
+        backgroundColor: '#FF6D24',
+        marginTop: 20,
+        marginBottom: 40,
+        borderRadius: 20,
+        padding: 10,
+        width: '80%',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      textStyle={{
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 18,
+      }}
+    />
+  </View>
+)}
+
+
         <View style={{
           backgroundColor: 'black',
           borderTopEndRadius: 24,
@@ -162,20 +204,6 @@ export default function Agendamento({ navigation, route }) {
           alignItems: 'center',
           justifyContent: 'space-evenly'
         }}>
-          {servicos.map(servico => (
-            <TouchableOpacity key={servico.id} onPress={() => goToCalendario(servico)}>
-              <View style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer', width: 350 }}>
-                <Image source={require('../../fotos/corteServ.png')} style={{ borderColor: 'white', borderWidth: 1, width: 90, height: 85 }} />
-                <View style={{ height: '70%', justifyContent: 'space-between', marginLeft: 25, width: 180 }}>
-                  <Text style={{ fontSize: 16, fontWeight: 600, color: '#FF6D24' }}>{servico.nomeServico}</Text>
-                  <Text style={{ fontSize: 14 }}>{servico.descricaoServico}</Text>
-                </View>
-                <Image source={require('../../fotos/Arrow 5.png')} style={{ marginLeft: '9%' }} />
-              </View>
-            </TouchableOpacity>
-          ))}
-
-          {horariosDisponiveis.length > 0 && renderHorarios()}
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -187,6 +215,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', // Ajuste a direção do layout para horizontal
     flexWrap: 'wrap', // Permite que os itens se movam para a próxima linha se não houver espaço suficiente
     justifyContent: 'center', // Centraliza os itens horizontalmente
+    marginVertical: 20, // Adicione uma margem vertical para separação dos elementos
   },
   horarioContainer: {
     backgroundColor: 'transparent',
@@ -202,4 +231,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  buttonContainer: {
+    alignItems: 'center', // Centraliza horizontalmente
+    justifyContent: 'center', // Centraliza verticalmente
+  }
 });
