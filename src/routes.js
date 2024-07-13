@@ -125,7 +125,8 @@ export default function Routes() {
   return (
     <Stack.Navigator screenOptions={{
       headerStyle:{
-        backgroundColor: '#1B1B1B'
+        backgroundColor: '#1B1B1B',
+        borderWidth: 0, 
       },
       headerTitleStyle: {
         color: 'white',
@@ -162,7 +163,8 @@ export default function Routes() {
         component={CalendarScreen} 
         options={{ 
           headerShown: true,
-          title: 'Calendário'
+          title: 'Calendário',
+          
            
         }} 
       />

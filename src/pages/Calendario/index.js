@@ -1,13 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import { Text, View, TouchableOpacity, ImageBackground } from 'react-native';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { estilo } from './../estilo';
-import moment from 'moment';
-import 'moment/locale/pt-br';
 
-moment.locale('pt-br');
+const fnd1 = '../../fotos/fnd1calendario.jpg';
+
+LocaleConfig.locales['pt-br'] = {
+  monthNames: [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro'
+  ],
+  monthNamesShort: ['Jan.', 'Fev.', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul.', 'Ago', 'Set', 'Out', 'Nov.', 'Dez.'],
+  dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+  dayNamesShort: ['Dom.', 'Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Sab.'],
+  today: "Hoje"
+};
+
+LocaleConfig.defaultLocale = 'pt-br';
 
 const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
     <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>
@@ -52,7 +73,7 @@ const CalendarScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ backgroundColor: '#1B1B1B' }}>
+    <ImageBackground source={require(fnd1)} style={{  width: '100%' }}>
       
       <Calendar
         onDayPress={(day) => {
@@ -60,39 +81,55 @@ const CalendarScreen = ({ navigation, route }) => {
           console.log('selected day', day);
         }}
         markedDates={{
-          [selectedDate]: { selected: true, marked: true}
+          [selectedDate]: { selected: true}
         }}
 
-        locale={{
-          monthNames: [
-            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
-            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-          ],
-          monthNamesShort: [
-            'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
-            'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
-          ],
-          dayNames: [
-            'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'
-          ],
-          dayNamesShort: [
-            'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
-          ],
-          today: 'Hoje'
-        }}
+        style={{ marginTop: '15%', width: '100%', backgroundColor: 0 }}
 
         theme={{
+          textSectionTitleColor: '#ffffff',
+          monthTextColor: '#ffffff',
+          arrowColor: '#ff6d24',
+          dayTextColor: '#ffffff',
+          textDisabledColor: '#444444',
+          todayTextColor: 'orange',
           selectedDayBackgroundColor: '#ff6d24',
-          calendarBackground: '#1B1B1B',
-          dayTextColor: 'white',
-          agendaDayTextColor: '#ff6d24'
-          
+          selectedDayTextColor: '#ffffff',
+          textDayFontWeight: '300',
+          textMonthFontWeight: 'bold',
+          textDayHeaderFontWeight: '300',
+          textDayFontSize: 20,
+          textMonthFontSize: 20,
+          textDayHeaderFontSize: 16,
+          textDayHeaderFontWeight: 'bold',
+          textDayHeaderColor: '#ff6d24',
+          backgroundColor: 0,
+          'stylesheet.calendar.main': { // Remover fundo branco da área do cabeçalho
+            container: {
+              backgroundColor: 'transparent',
+              marginTop: 30,
+            },
+
+            week: {
+              marginTop: 20,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              backgroundColor: 'transparent',
+            },
+          },
+          'stylesheet.day.basic': {
+            base: {
+              alignItems: 'center', 
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              width: 32,
+              height: 32,
+            },
+          }
         }}
     
       />
-      <Text>Serviço Selecionado: {nomeServico}</Text>
-      <Text>Descrição do Serviço: {descricaoServico}</Text>
-      <Text>Data Selecionada: {selectedDate}</Text>
+      
       <CustomButton
         title="AGENDAR"
         onPress={goToAgendamento}
@@ -103,7 +140,8 @@ const CalendarScreen = ({ navigation, route }) => {
           height: 35,
           backgroundColor: '#FF6D24',
           borderBottomRightRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 20, borderTopLeftRadius: 20,
-          marginTop: '17%'
+          marginTop: '15%',
+          alignSelf: 'center'
         }}
         textStyle={{
           color: 'white',
@@ -111,7 +149,7 @@ const CalendarScreen = ({ navigation, route }) => {
           fontWeight: 600,
         }}
       />
-    </View>
+    </ImageBackground >
   );
 };
 
