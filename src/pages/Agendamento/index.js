@@ -23,6 +23,8 @@ export default function Agendamento({ navigation, route }) {
   const [funcionarios, setFuncionarios] = useState([]);
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
   const [horarioSelecionado, setHorarioSelecionado] = useState(null);
+  const [funcionarioSelecionado, funcionarioSelecionadoId] = useState(null);
+
 
   useEffect(() => {
     const fetchFuncionarios = async () => {
@@ -55,6 +57,7 @@ export default function Agendamento({ navigation, route }) {
           duracaoEmMinutos: duracaoServico // Substitua pelo valor correto
         }
       });
+      funcionarioSelecionadoId(funcionarioId);
       setHorariosDisponiveis(resposta.data);
     } catch (error) {
       console.log('Erro ao buscar horários disponíveis:', error);
@@ -62,27 +65,42 @@ export default function Agendamento({ navigation, route }) {
   };
 
   const handleFinalizar = async () => {
+    const dadosAgendamento = {
+      funcionario_id: funcionarioSelecionado, 
+      cliente_id: idCliente,
+      servico_id: idServico,
+      horario_id: horarioSelecionado.horario_id,
+      dataAgendamento: dataSelecionada,
+      horarioSelecionado: horarioSelecionado.horarios, 
+    };
+  
     try {
-      const token = await AsyncStorage.getItem('userToken');
-      const resposta = await axios.post('http://127.0.0.1:8000/agendamentos', {
-        idServico,
-        nomeServico,
-        descricaoServico,
-        idCliente,
-        dataSelecionada,
-        horarioSelecionado,
-        duracaoServico
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      console.log('Agendamento realizado com sucesso:', resposta.data);
-      // Navegue para a tela de confirmação ou outra tela apropriada
+      const resultado = await agendarServico(dadosAgendamento);
+     
+      console.log('Resultado do agendamento:', resultado);
     } catch (error) {
-      console.log('Erro ao realizar agendamento:', error);
+      console.error('Erro ao finalizar agendamento:', error);
     }
   };
+  
+
+  const agendarServico = async (dadosAgendamento) => {
+  try {
+    const token = await AsyncStorage.getItem('userToken');
+    console.log(token);
+    const resposta = await axios.post('http://127.0.0.1:8000/agendamentos/mobile', dadosAgendamento, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log('Agendamento realizado com sucesso:', resposta.data);
+    return resposta.data;
+  } catch (error) {
+    console.log('Erro ao realizar agendamento:', error.response.data);
+    throw error;
+  }
+};
 
   const _renderItem = ({ item }) => {
     const fotoURL = item.fotoFuncionario === "SEM IMAGEM" 
@@ -108,6 +126,8 @@ export default function Agendamento({ navigation, route }) {
     );
   };
 
+  const handleFuncionarioSelect = (funcionarioSelecionadoId);
+
   const renderHorarios = () => {
     return (
       <View style={styles.horariosContainer}>
@@ -125,6 +145,7 @@ export default function Agendamento({ navigation, route }) {
   const handleHorarioSelect = (horario) => {
     console.log('Horário selecionado:', horario);
     setHorarioSelecionado(horario);
+    console.log(handleFuncionarioSelect);
   };
 
   return (
