@@ -57,16 +57,32 @@ export default function Agendamento({ navigation, route }) {
 
   return (
     <SafeAreaView>
+      
       <ImageBackground source={require(fnd2)} style={{width: '100%'}}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingVertical: 11, paddingHorizontal: 20, backgroundColor: '#ff6d24', color: 'white', width: '90%', borderTopEndRadius: 15, borderBottomEndRadius: 15, marginTop: 30 }} >SELECIONE UM FUNCIONÁRIO</Text>
+      <ScrollView>
+        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingVertical: 11, paddingHorizontal: 20, backgroundColor: '#FD7E14', color: 'white', width: '90%', borderTopEndRadius: 15, borderBottomEndRadius: 15, marginTop: 30 }} >SELECIONE UM FUNCIONÁRIO</Text>
 
-        <View>
-          <Text>HORÁRIOS</Text>
-          <View style={{ }}>
-            <View>15:00</View>
+        
+          <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'white', alignSelf: 'center', marginTop: 15 }}>HORÁRIOS</Text>
+          <View style={{ width: '90%', alignSelf: 'center', flexDirection: 'row', gap: 10, marginTop: 20}}>
+            <View style={{ width: 100, height: 40, backgroundColor: '#1B1B1B', alignItems: 'center', justifyContent: 'center', borderRadius: 15 }}>
+              <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>15:00</Text>
+            </View>
+            <View style={{ width: 100, height: 40, backgroundColor: '#FD7E14', alignItems: 'center', justifyContent: 'center', borderRadius: 15 }}>
+              <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>15:30</Text>
+            </View>
+            <View style={{ width: 100, height: 40, backgroundColor: '#1B1B1B', alignItems: 'center', justifyContent: 'center', borderRadius: 15 }}>
+              <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>16:00</Text>
+            </View>
           </View>
-        </View>
+          
+          <TouchableOpacity style={{ color: 'white', fontSize: 16, padding: 15, backgroundColor: '#1B1B1B', alignItems: 'center', justifyContent: 'center', width: '45%', alignSelf: 'center', marginTop: 40, borderRadius: 20 }}>
+          AGENDAR  
+          </TouchableOpacity>
+        
+        </ScrollView>
       </ImageBackground>
+      
     </SafeAreaView>
   );
 }
