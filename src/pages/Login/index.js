@@ -26,7 +26,7 @@ export default function Login({ navigation }) {
 
   const storeToken = async (token) => {
     try {
-        await AsyncStorage.setItem('access_token', token);
+        await AsyncStorage.setItem('userToken', token);
     } catch (error) {
         console.error('Erro ao armazenar o token', error);
     }
@@ -65,7 +65,7 @@ export default function Login({ navigation }) {
           //Armazenar o token na memória do APP
           await AsyncStorage.setItem('userToken', token);
 
-          storeToken(resposta.data.access_token)
+          storeToken(resposta.data.access_token)  
 
           navigation.navigate('Inicio', { idCliente })
         }
