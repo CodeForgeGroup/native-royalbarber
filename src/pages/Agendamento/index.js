@@ -1,91 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Image, ImageBackground, Dimensions } from 'react-native';
-import { estilo } from './../estilo';
-import Carousel from 'react-native-snap-carousel';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
-  <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>
-    <Text style={[estilo.textoBotao, textStyle]}>{title}</Text>
-  </TouchableOpacity>
-);
-
-const fnd2 = '../../fotos/fnd2horario.jpg'
-
-
-
-export default function Agendamento({ navigation, route }) {
-  const { idServico, nomeServico, descricaoServico, idCliente, dataSelecionada } = route.params || {};
-
-  const [nomeCliente, setNomeCliente] = useState("");
-  const [servicos, setServicos] = useState([]);
-
-  useEffect(() => {
-    const fetchServicoData = async () => {
-      try {
-        const token = await AsyncStorage.getItem('userToken');
-        const resposta = await axios.get(`http://127.0.0.1:8000/servico/show`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        setServicos(resposta.data);
-      } catch (error) {
-        console.log('Erro ao procurar dados do Servico:', error);
-      }
-    };
-    fetchServicoData();
-  }, []);
-
-  const goToCalendario = (servico) => {
-    navigation.navigate('Calendario', {
-      idServico: servico.id,
-      nomeServico: servico.nomeServico,
-      descricaoServico: servico.descricaoServico,
-      idCliente: idCliente,
-    });
-  };
-
-  // carousel
-
-  const { width: screenWidth } = Dimensions.get('window');
-
-  
-
- 
-
-  return (
-    <SafeAreaView>
-      
-      <ImageBackground source={require(fnd2)} style={{width: '100%'}}>
-      <ScrollView>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingVertical: 11, paddingHorizontal: 20, backgroundColor: '#FD7E14', color: 'white', width: '90%', borderTopEndRadius: 15, borderBottomEndRadius: 15, marginTop: 30 }} >SELECIONE UM FUNCIONÁRIO</Text>
-
-        
-          <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'white', alignSelf: 'center', marginTop: 15 }}>HORÁRIOS</Text>
-          <View style={{ width: '90%', alignSelf: 'center', flexDirection: 'row', gap: 10, marginTop: 20}}>
-            <View style={{ width: 100, height: 40, backgroundColor: '#1B1B1B', alignItems: 'center', justifyContent: 'center', borderRadius: 15 }}>
-              <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>15:00</Text>
-            </View>
-            <View style={{ width: 100, height: 40, backgroundColor: '#FD7E14', alignItems: 'center', justifyContent: 'center', borderRadius: 15 }}>
-              <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>15:30</Text>
-            </View>
-            <View style={{ width: 100, height: 40, backgroundColor: '#1B1B1B', alignItems: 'center', justifyContent: 'center', borderRadius: 15 }}>
-              <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>16:00</Text>
-            </View>
-          </View>
-          
-          <TouchableOpacity style={{ color: 'white', fontSize: 16, padding: 15, backgroundColor: '#1B1B1B', alignItems: 'center', justifyContent: 'center', width: '45%', alignSelf: 'center', marginTop: 40, borderRadius: 20 }}>
-          AGENDAR  
-          </TouchableOpacity>
-        
-        </ScrollView>
-      </ImageBackground>
-      
-    </SafeAreaView>
-  );
-}
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Image, ImageBackground, Dimensions, FlatList } from 'react-native';
 import { estilo } from './../estilo';
@@ -99,7 +12,7 @@ const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
   </TouchableOpacity>
 );
 
-const gradiente = '../../fotos/gradiente.svg';
+const fnd2 = '../../fotos/fnd2horario.jpg';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -207,7 +120,7 @@ export default function Agendamento({ navigation, route }) {
         <CustomButton
           title="Ver horários disponíveis"
           onPress={() => fetchHorarios(item.id)}
-          buttonStyle={{ backgroundColor: 'transparent', marginTop: 4, borderRadius:60, borderWidth:1, borderColor:'black', alignItems:'center', height:40 }}
+          buttonStyle={{ backgroundColor: '#ff6d24', marginTop: 4, borderRadius:60, alignItems:'center', height:40 }}
           textStyle={{ color: 'white', alignItems: 'center', fontWeight:'bold', marginTop:7, fontSize:17}}
         />
       </TouchableOpacity>
@@ -220,7 +133,7 @@ export default function Agendamento({ navigation, route }) {
     return (
       <View style={styles.horariosContainer}>
         {horariosDisponiveis.map((item) => (
-          <TouchableOpacity key={item.horario_id} onPress={() => handleHorarioSelect(item)}>
+          <TouchableOpacity key={item.horario_id} onPress={() => handleHorarioSelect(item)} style={{ horario }}>
             <View style={styles.horarioContainer}>
               <Text style={styles.horarioText}>{item.horarios}</Text>
             </View>
@@ -236,33 +149,20 @@ export default function Agendamento({ navigation, route }) {
     console.log(handleFuncionarioSelect);
   };
 
+  const Scheduling = () => {
+    const [selectedTime, setSelectedTime] = useState(null);
+  
+    const times = [horario];
+  
+    const handleTimePress = (time) => {
+      setSelectedTime(time);
+    };
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: 'white' }}>
       <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
-        <View style={estilo.topo}>
-          <Image source={require('../../fotos/logoLaranja.svg')} style={estilo.logo} />
-          <Text style={estilo.textOla}>Olá, <Text style={{ color: 'orange' }}>{nomeCliente}</Text><br />Seja bem-vindo(a)</Text>
-          <CustomButton
-            title="AGENDAR"
-            onPress={() => navigation.navigate('Inicio')}
-            buttonStyle={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 98,
-              height: 44,
-              padding: 15,
-              backgroundColor: '#FF6D24',
-              borderRadius: 20,
-            }}
-            textStyle={{
-              fontSize: 14,
-              fontWeight: 600,
-              color: 'white',
-            }}
-          />
-        </View>
-
-        <ImageBackground source={require(gradiente)} style={{ height: 600, alignItems: 'center', width: 400 }}>
+      
+        <ImageBackground source={require(fnd2)} style={{ height: 600, alignItems: 'center', width: 400 }}>
           <Image source={require('../../fotos/tesoura.svg')} style={{ marginTop: 15 }} />
           <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'white' }}>BARBEIROS</Text>
 
