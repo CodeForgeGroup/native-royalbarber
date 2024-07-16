@@ -17,6 +17,7 @@ const fnd2 = '../../fotos/fnd2horario.jpg';
 const { width: screenWidth } = Dimensions.get('window');
 
 export default function Agendamento({ navigation, route }) {
+
   const { idServico, nomeServico, descricaoServico, idCliente, dataSelecionada, duracaoServico } = route.params || {};
 
   const [nomeCliente, setNomeCliente] = useState("");
@@ -133,8 +134,8 @@ export default function Agendamento({ navigation, route }) {
     return (
       <View style={styles.horariosContainer}>
         {horariosDisponiveis.map((item) => (
-          <TouchableOpacity key={item.horario_id} onPress={() => handleHorarioSelect(item)} style={{ horario }}>
-            <View style={styles.horarioContainer}>
+          <TouchableOpacity key={item.horario_id} onPress={() => handleHorarioSelect(item)}>
+            <View style={[ styles.horarioContainer, horarioSelecionado === item && styles.horarioSelecionado ]}>
               <Text style={styles.horarioText}>{item.horarios}</Text>
             </View>
           </TouchableOpacity>
@@ -149,15 +150,7 @@ export default function Agendamento({ navigation, route }) {
     console.log(handleFuncionarioSelect);
   };
 
-  const Scheduling = () => {
-    const [selectedTime, setSelectedTime] = useState(null);
   
-    const times = [horario];
-  
-    const handleTimePress = (time) => {
-      setSelectedTime(time);
-    };
-
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: 'white' }}>
       <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
@@ -227,9 +220,7 @@ const styles = StyleSheet.create({
     marginVertical: 20, // Adicione uma margem vertical para separação dos elementos
   },
   horarioContainer: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: '#ff6d24',
+    backgroundColor: '#1B1B1B',
     padding: 10,
     margin: 5, // Ajuste de margem para espaçamento entre os horários
     borderRadius: 10,
@@ -243,5 +234,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: 'center', // Centraliza horizontalmente
     justifyContent: 'center', // Centraliza verticalmente
-  }
+  },
+
+  horarioSelecionado: {
+    borderRadius: 10,
+    backgroundColor: '#ff6d24'
+  },
 });
