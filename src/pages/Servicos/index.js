@@ -48,10 +48,14 @@ export default function Servicos({ navigation, route }) {
     });
   };
 
-  const _renderItem = ({ item, index }) => {
+  const _renderItem = ({ item }) => {
+    const fotoURL = item.fotoServico === "SEM IMAGEM" 
+      ? 'http://codegroupdev.com.br/royalbarber/royalbarber/public/images/royalBarberFunc.png'
+      : `http://codegroupdev.com.br/royalbarber/royalbarber/storage/app/public/${item.fotoServico}`;
+    console.log(item.fotoServico);
     return (
       <View style={{ marginTop: 60, marginBottom: 35 }}>
-        <Image source={require('../../fotos/corteServ.png')} />
+       <Image source={{ uri: fotoURL }} style={{ width: '100%', height: 300, borderRadius:20 }} />
         <View
           style={{
             backgroundColor: 'rgba(51, 51, 51, 0.8)',
@@ -115,32 +119,60 @@ export default function Servicos({ navigation, route }) {
           backgroundColor: 'black',
           borderTopEndRadius: 24,
           borderTopStartRadius: 24,
-          height: '100%',
           position: 'relative',
           top: -21,
           alignItems: 'center',
-          justifyContent: 'space-evenly'
+          paddingVertical: 20, // Adicionado para um pouco de espaçamento vertical
         }}>
-          {servicos.map(servico => (
-            <TouchableOpacity key={servico.id} onPress={() => goToCalendario(servico)}>
-              <View style={{ backgroundColor: 'white', width: '90%', height: 86, flexDirection: 'row', alignItems: 'center', cursor: 'pointer', width:350, }}>
-                <Image source={require('../../fotos/corteServ.png')} style={{ borderColor: 'white', borderWidth: 1, width: 90, height: 85 }} />
-                <View style={{ height: '70%', justifyContent: 'space-between', marginLeft: 25, width: 180 }}>
-                  <Text style={{ fontSize: 16, fontWeight: 600, color: '#FF6D24' }}>{servico.nomeServico}</Text>
-                  <Text style={{ fontSize: 14 }}>{servico.descricaoServico}</Text>
+          {servicos.map(servico => {
+            const fotoURL = servico.fotoServico == "SEM IMAGEM"
+              ? 'http://codegroupdev.com.br/royalbarber/royalbarber/public/images/royalBarberFunc.png'
+              : `http://codegroupdev.com.br/royalbarber/royalbarber/storage/app/public/${servico.fotoServico}`;
+
+            return (
+              <TouchableOpacity key={servico.id} onPress={() => goToCalendario(servico)}>
+                <View style={{ 
+                  backgroundColor: 'white', 
+                  width: '90%', 
+                  height: 86, 
+                  flexDirection: 'row', 
+                  alignItems: 'center', 
+                  cursor: 'pointer', 
+                  width: 350, 
+                  marginVertical: 10, // Adicionado para um pouco de espaçamento entre os itens
+                }}>
+                  <Image source={{ uri: fotoURL }} style={{ 
+                    borderColor: 'white', 
+                    borderWidth: 1, 
+                    width: 90, 
+                    height: 85 
+                  }} />
+                  <View style={{ 
+                    height: '70%', 
+                    justifyContent: 'space-between', 
+                    marginLeft: 25, 
+                    width: 180 
+                  }}>
+                    <Text style={{ 
+                      fontSize: 16, 
+                      fontWeight: 600, 
+                      color: '#FF6D24' 
+                    }}>
+                      {servico.nomeServico}
+                    </Text>
+                    <Text style={{ 
+                      fontSize: 14 
+                    }}>
+                      {servico.descricaoServico}
+                    </Text>
+                  </View>
+                  <Image source={require('../../fotos/Arrow 5.png')} style={{ 
+                    marginLeft: '9%' 
+                  }} />
                 </View>
-                <Image source={require('../../fotos/Arrow 5.png')} style={{ marginLeft: '9%' }} />
-              </View>
-            </TouchableOpacity>
-          ))}
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Calendario')}
-            style={{ color: 'white', padding: 10, backgroundColor: 'orange', borderRadius: 16 }}
-          >
-            CORTE MAQUINA
-          </TouchableOpacity>
-
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </SafeAreaView>
     </ScrollView>
