@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Image, ImageBackground, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Image, ImageBackground, Dimensions } from 'react-native';
+import Modal from "react-native-modal";
 import { estilo } from './../estilo';
 import Carousel from 'react-native-snap-carousel';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 
 const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
   <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>
@@ -16,7 +18,15 @@ const fnd2 = '../../fotos/fnd2horario.jpg';
 
 const { width: screenWidth } = Dimensions.get('window');
 
+
+
+
+
+
 export default function Agendamento({ navigation, route }) {
+
+  const [errorModalVisible, setErrorModalVisible] = useState(true);
+  const [okModalVisible, setOkModalVisible] = useState(false);
 
   const { idServico, nomeServico, descricaoServico, idCliente, dataSelecionada, duracaoServico } = route.params || {};
 
@@ -80,8 +90,10 @@ export default function Agendamento({ navigation, route }) {
       const resultado = await agendarServico(dadosAgendamento);
      
       console.log('Resultado do agendamento:', resultado);
+      setOkModalVisible(true)
     } catch (error) {
       console.error('Erro ao finalizar agendamento:', error);
+      setErrorModalVisible(true)
     }
   };
   
@@ -152,9 +164,11 @@ export default function Agendamento({ navigation, route }) {
 
   
   return (
+
+    
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: 'white' }}>
       <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
-      
+        
         <ImageBackground source={require(fnd2)} style={{ height: 600, alignItems: 'center', width: 400 }}>
           <Image source={require('../../fotos/tesoura.svg')} style={{ marginTop: 15 }} />
           <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'white' }}>BARBEIROS</Text>
@@ -167,6 +181,8 @@ export default function Agendamento({ navigation, route }) {
             layout={'default'}
             firstItem={1}
           />
+
+          
         </ImageBackground>
 
         {horariosDisponiveis.length > 0 && renderHorarios()}
@@ -207,6 +223,31 @@ export default function Agendamento({ navigation, route }) {
           justifyContent: 'space-evenly'
         }}>
         </View>
+
+        <Modal isVisible={okModalVisible} onBackButtonPress={() => setOkModalVisible(false)} >
+
+          <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 10, alignItems: 'center', }}>
+            <Ionicons name="checkmark-circle-outline" size={62} color="green" />
+            <Text style={{ fontSize: 22, fontWeight: 700, marginBottom: 10, color: 'green' }}>Sucesso!</Text>
+            <Text style={{ fontSize: 18, fontWeight: 500, marginBottom: 20, textAlign: 'center', color: '#1B1B1B', }}>Agendamento concluído, verifique sua agenda.</Text>
+            <TouchableOpacity onPress={() => setOkModalVisible(false)}>
+              <Text style={{ fontSize: 18, color: '#3498db' }} onPress={() => navigation.navigate('Agenda')}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+
+        <Modal isVisible={errorModalVisible} onBackButtonPress={() => setErrorModalVisible(false)} >
+
+          <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 10, alignItems: 'center', }}>
+          <MaterialIcons name="error-outline" size={62} color="red" />
+            <Text style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 10, color: 'red' }}>Erro!</Text>
+            <Text style={{ fontSize: 18, fontWeight: 500, marginBottom: 20, textAlign: 'center', color: '#333', }}>Houve um erro inesperado, entre em contato com o suporte.</Text>
+            <TouchableOpacity onPress={() => setOkModalVisible(false)}>
+              <Text style={{ fontSize: 18, color: '#3498db' }} onPress={() => navigation.navigate('Inicio', { idCliente })} >OK</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+
       </SafeAreaView>
     </ScrollView>
   );
