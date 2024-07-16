@@ -95,36 +95,36 @@ export default function Perfil({ navigation, route }) {
 
   return (
     <ScrollView>
-      <SafeAreaView style={{ flex: 1 }}>
-        <ImageBackground source={require(fundo)} style={{ flex: 1, alignItems: 'center', width: 400, height:'100%' }}>
+      <SafeAreaView style={{  }}>
+        <ImageBackground source={require(fundo)} style={{  alignItems: 'center', justifyContent: 'center', width: '100%', height:'100%' }}>
           <View style={{ alignSelf: 'flex-start', borderBottomRightRadius: 20, borderTopRightRadius: 20, backgroundColor: '#FD7E14', width: 255, height: 48, marginTop: 30, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ fontSize: 20, fontWeight: 600, color: 'white' }}> MEUS COMPROMISSOS </Text>
           </View>
 
           {agendamentos.map((agendamento) => (
-            <ImageBackground key={agendamento.id} source={require(img)} style={{ alignItems: 'center', justifyContent: 'center', gap: 15, width: 317, height: 200, marginTop: 55 }}>
-              <View style={{ gap: 5 }}>
-                <View style={{ justifyContent: 'space-between', width: 172, height: 26, flexDirection: 'row' }}>
+            <View key={agendamento.id} style={{ backgroundColor: '#1B1B1B', alignItems: 'center', justifyContent: 'center', gap: 15, width: '90%', marginTop: 55, alignSelf: 'center' }}>
+              
+                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                   <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Horário</Text>
                   <Text style={{ color: 'white', fontSize: 16, fontWeight: 600 }}>{format(combineDateAndTime(agendamento.dataAgendamento, agendamento.horarioInicial), 'HH:mm')}</Text>
                 </View>
-                <View style={{ justifyContent: 'space-between', width: 200, height: 26, flexDirection: 'row' }}>
+                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                   <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Serviço</Text>
                   <Text style={{ color: 'white', fontSize: 16, fontWeight: 600, marginLeft: 40 }}>{agendamento.servico.nomeServico}</Text>
                 </View>
-                <View style={{ justifyContent: 'space-between', width: 190, height: 26, flexDirection: 'row' }}>
+                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                   <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Data</Text>
                   <Text style={{ color: 'white', fontSize: 16, fontWeight: 600, marginLeft: 60 }}>{format(new Date(agendamento.dataAgendamento), 'yyyy/MM/dd')}</Text>
                 </View>
-                <View style={{ justifyContent: 'space-between', width: 200, height: 26, flexDirection: 'row' }}>
+                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                   <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Func.</Text>
                   <Text style={{ color: 'white', fontSize: 16, fontWeight: 600, marginLeft: 40 }}>{agendamento.funcionario.nomeFuncionario} {agendamento.funcionario.sobrenomeFuncionario}</Text>
                 </View>
-                <View style={{ justifyContent: 'space-between', width: 190, height: 26, flexDirection: 'row' }}>
+                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                   <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Status</Text>
                   <Text style={{ color: 'white', fontSize: 16, fontWeight: 600, marginLeft: 0 }}>{agendamento.statusServico}</Text>
                 </View>
-              </View>
+              
 
               <CustomButton
                 title="CANCELAR"
@@ -143,7 +143,7 @@ export default function Perfil({ navigation, route }) {
                   fontWeight: 600
                 }}
               />
-            </ImageBackground>
+            </View>
           ))}
 
           <CustomButton

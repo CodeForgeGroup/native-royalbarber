@@ -25,7 +25,7 @@ const { width: screenWidth } = Dimensions.get('window');
 
 export default function Agendamento({ navigation, route }) {
 
-  const [errorModalVisible, setErrorModalVisible] = useState(true);
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
   const [okModalVisible, setOkModalVisible] = useState(false);
 
   const { idServico, nomeServico, descricaoServico, idCliente, dataSelecionada, duracaoServico } = route.params || {};
