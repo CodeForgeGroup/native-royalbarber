@@ -1,224 +1,80 @@
-import React, {useState} from 'react';
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Image, ImageBackground, TextInput, Linking, Alert, Platform, span } from 'react-native';
-import { estilo } from '../estilo'
-const fundo = '../../fotos/fundoPerfil.png'
+import React, { useState, useEffect } from 'react';
+import { Text, View, TextInput, ScrollView, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
-    <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>
-        <Text style={[estilo.textoBotao, textStyle]}>{title}</Text>
-    </TouchableOpacity>
-);
+const PerfilClienteScreen = ({ route, navigation }) => {
+    const [nome, setNome] = useState('');
+    const [sobrenome, setSobrenome] = useState('');
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [endereco, setEndereco] = useState('');
+    const [selectedImage, setSelectedImage] = useState(null);
 
-export default function App() {
+    useEffect(() => {
+        const fetchCliente = async () => {
+            try {
+                const token = await AsyncStorage.getItem('userToken');
+                const response = await axios.get(`http://127.0.0.1:8000/api/perfil/cliente/${route.params.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const cliente = response.data;
 
-    const [isFocused, setIsFocused] = useState(false);
+                setNome(cliente.nome);
+                setSobrenome(cliente.sobrenome);
+                setEmail(cliente.email);
+                setSenha(cliente.senha);
+                setTelefone(cliente.telefone);
+                setEndereco(cliente.endereco);
+                setSelectedImage(`http://127.0.0.1:8000/storage/imagem/${cliente.fotoCliente}`);
+            } catch (error) {
+                console.error('Erro ao buscar dados do cliente:', error);
+            }
+        };
 
-    const [isEditable, setIsEditable] = useState(false);
-        
+        if (route.params && route.params.id) {
+            fetchCliente();
+        }
+    }, [route.params]);
+
     const handleToggleEdit = () => {
-        setIsEditable(!isEditable);
+        // Implemente a lógica para alternar entre modo de edição e visualização
     };
 
+    const handleSavePerfilEdit = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const formData = new FormData();
+
+            formData.append('nome', nome);
+            formData.append('sobrenome', sobrenome);
+            formData.append('email', email);
+            formData.append('senha', senha);
+            // Adicione mais campos conforme necessário
+
+            const response = await axios.post(`http://127.0.0.1:8000/api/perfil/cliente/${route.params.id}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            // Lógica para tratar sucesso
+
+        } catch (error) {
+            console.error('Erro ao atualizar o perfil:', error);
+            // Lógica para tratar erro
+        }
+    };
 
     return (
-        <ScrollView contentContainerStyle={{ flex: 1, backgroundColor: '#343434', borderWidth: 0 }}>
-
-            <ImageBackground source={require(fundo)} style={{ alignItems: 'center', height: 'auto', borderWidth: 0 }}>
-
-                <Image source={require('../../fotos/fundoFoto.png')} />
-                <Image source={require('../../fotos/fotoPerfil.png')} style={{ position: 'absolute', top: 30 }} />
-
-                <Text style={{ fontSize: 24, fontWeight: 700, alignSelf: 'flex-start', marginTop: 55, marginLeft: 30, color: 'white' }}>Meus dados</Text>
-
-                <View style={{ alignSelf: 'flex-start', marginLeft: 24, marginTop: 25 }}>
-                    <Text style={{ fontSize: 18, fontWeight: 600, color: 'white', marginLeft: 15, marginBottom: 3 }}>EMAIL</Text>
-                    <TextInput
-                        style={{
-                            fontSize: 16,
-                            fontWeight: 600,
-                            color: 'white',
-                            padding: 10,
-                            paddingLeft: 25,
-                            backgroundColor: isEditable ? '#FF6D24' : '#1B1B1B',
-                            alignSelf: 'flex-start',
-                            width: 330,
-                            height: 40,
-                            borderRadius: 20,
-                        }}
-                        placeholder='example@email.com'
-                        editable={isEditable}
-                    />
-                </View>
-
-                <View style={{ alignSelf: 'flex-start', marginLeft: 24, marginTop: 25 }}>
-                    <Text style={{ fontSize: 18, fontWeight: 600, color: 'white', marginLeft: 15, marginBottom: 3 }}>SENHA</Text>
-                    <TextInput
-
-                        style={{
-                            fontSize: 16,
-                            fontWeight: 600,
-                            color: 'white',
-                            padding: 10,
-                            paddingLeft: 25,
-                            backgroundColor: isEditable ? '#FF6D24' : '#1B1B1B',
-                            alignSelf: 'flex-start',
-                            width: 330,
-                            height: 40,
-                            borderRadius: 20,
-                        }}
-                        onFocus={() => setIsFocused(true)}
-                        onBlur={() => setIsFocused(false)}
-                        placeholder='***********'
-                        editable={isEditable}
-                    />
-                </View>
-
-                <View style={{ alignSelf: 'flex-start', marginLeft: 24, marginTop: 25 }}>
-                    <Text style={{ fontSize: 18, fontWeight: 600, color: 'white', marginLeft: 15, marginBottom: 3 }}>TELEFONE</Text>
-                    <TextInput
-                        style={{
-                            fontSize: 16,
-                            fontWeight: 600,
-                            color: 'white',
-                            padding: 10,
-                            paddingLeft: 25,
-                            backgroundColor: isEditable ? '#FF6D24' : '#1B1B1B',
-                            alignSelf: 'flex-start',
-                            width: 330,
-                            height: 40,
-                            borderRadius: 20,
-                        }}
-                        placeholder='(11) 91336-4872'
-                        editable={isEditable}
-                    />
-                </View>
-
-                <View style={{ alignSelf: 'flex-start', marginLeft: 24, marginTop: 25 }}>
-                    <Text style={{ fontSize: 18, fontWeight: 600, color: 'white', marginLeft: 15, marginBottom: 3 }}>ENDEREÇO</Text>
-                    <TextInput
-                        style={{
-                            fontSize: 16,
-                            fontWeight: 600,
-                            color: 'white',
-                            padding: 10,
-                            paddingLeft: 25,
-                            backgroundColor: isEditable ? '#FF6D24' : '#1B1B1B',
-                            alignSelf: 'flex-start',
-                            width: 330,
-                            height: 40,
-                            borderRadius: 20,
-                            
-                        }}
-                        placeholder='Rua alamedas, 702'
-                        editable={isEditable}
-                    />
-                </View>
-
-                <CustomButton
-                    onPress={handleToggleEdit}
-                    title="ALTERAR DADOS"
-                    
-                    buttonStyle={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: '#FF6D24',
-                        width: 155,
-                        height: 40,
-                        borderRadius: 20,
-                        marginTop: 55,
-                        marginBottom: 55
-                    }}
-                    textStyle={{
-                        fontSize: 16,
-                        fontWeight: 600,
-                        color: 'white'
-                    }}
-                />
-            </ImageBackground>
-
-            <View style={{ alignItems: 'center', backgroundColor: '#343434', borderWidth: 0 }}>
-                <Text style={{ marginTop: 51, fontSize: 26, fontWeight: 600, color: 'white' }}>MEUS AGENDAMENTOS</Text>
-                <span style={{ backgroundColor: '#FF6D24', width: 220, height: 2, marginTop: 7, marginBottom: 25 }}></span>
-
-                <View style={{ flexDirection: 'row', gap: 15 }}>
-
-                    <View style={{ alignItems: 'center', backgroundColor: '#1B1B1B', borderRadius: 10, width: 148, height: 182, justifyContent: 'space-evenly' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Horário</Text>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>16:00</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Serviço</Text>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Cabelo</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Data</Text>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>14/02</Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Func.</Text>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Alexandre</Text>
-                        </View>
-
-                        <CustomButton
-                            title="CANCELAR"
-                            buttonStyle={{
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                width: '75%',
-                                heigth: 50,
-                                backgroundColor: '#FF6D24',
-                                borderRadius: 20
-                            }}
-                            textStyle={{
-                                fontSize: 14,
-                                fontWeight: 'bold',
-                                color: 'white'
-                            }}
-                        />
-                    </View>
-
-                    <View style={{ alignItems: 'center', backgroundColor: '#1B1B1B', borderRadius: 10, width: 148, height: 182, justifyContent: 'space-evenly', marginBottom: 60 }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Horário</Text>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>18:00</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Serviço</Text>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Barba</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Data</Text>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>14/02</Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: '#FF6D24' }}>Func.</Text>
-                            <Text style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Ronaldo</Text>
-                        </View>
-                        <CustomButton
-                            title="CANCELAR"
-                            buttonStyle={{
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                width: '75%',
-                                heigth: 50,
-                                backgroundColor: '#FF6D24',
-                                borderRadius: 20
-                            }}
-                            textStyle={{
-                                fontSize: 14,
-                                fontWeight: 'bold',
-                                color: 'white'
-                            }}
-                        />
-                    </View>
-                </View>
-
-            </View>
-
+        <ScrollView contentContainerStyle={{ flex: 1, backgroundColor: '#343434' }}>
+            {/* Conteúdo da tela */}
         </ScrollView>
-
     );
-}
+};
+
+export default PerfilClienteScreen;
