@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, ImageBackground, Alert } from 'react-native';
 import { estilo } from '../estilo';
+import Modal from "react-native-modal";
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { format } from 'date-fns';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 
 const fundo = '../../fotos/fundoAgenda.png';
 const img = '../../fotos/fundoCompro.png';
@@ -25,6 +27,9 @@ const combineDateAndTime = (date, time) => {
 
 export default function Perfil({ navigation, route }) {
   const { idCliente } = route.params || {};
+
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
+  const [okModalVisible, setOkModalVisible] = useState(false);
 
   const [nomeCliente, setNomeCliente] = useState("");
   const [emailCliente, setEmailCliente] = useState("");
@@ -78,7 +83,7 @@ export default function Perfil({ navigation, route }) {
         statusAgendamento: 'CANCELADO'
 
       },
-      
+      setErrorModalVisible(true),
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -95,37 +100,39 @@ export default function Perfil({ navigation, route }) {
 
   return (
     <ScrollView>
-      <SafeAreaView style={{  }}>
+      <SafeAreaView>
         <ImageBackground source={require(fundo)} style={{  alignItems: 'center', justifyContent: 'center', width: '100%', height:'100%' }}>
           <View style={{ alignSelf: 'flex-start', borderBottomRightRadius: 20, borderTopRightRadius: 20, backgroundColor: '#FD7E14', width: 255, height: 48, marginTop: 30, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ fontSize: 20, fontWeight: 600, color: 'white' }}> MEUS COMPROMISSOS </Text>
           </View>
-
+          
           {agendamentos.map((agendamento) => (
-            <View key={agendamento.id} style={{ backgroundColor: '#1B1B1B', alignItems: 'center', justifyContent: 'center', gap: 15, width: '90%', marginTop: 55, alignSelf: 'center' }}>
-              
-                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                  <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Horário</Text>
-                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 600 }}>{format(combineDateAndTime(agendamento.dataAgendamento, agendamento.horarioInicial), 'HH:mm')}</Text>
-                </View>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                  <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Serviço</Text>
-                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 600, marginLeft: 40 }}>{agendamento.servico.nomeServico}</Text>
-                </View>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                  <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Data</Text>
-                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 600, marginLeft: 60 }}>{format(new Date(agendamento.dataAgendamento), 'yyyy/MM/dd')}</Text>
-                </View>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                  <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Func.</Text>
-                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 600, marginLeft: 40 }}>{agendamento.funcionario.nomeFuncionario} {agendamento.funcionario.sobrenomeFuncionario}</Text>
-                </View>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                  <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Status</Text>
-                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 600, marginLeft: 0 }}>{agendamento.statusServico}</Text>
-                </View>
+            <View key={agendamento.id} style={{ backgroundColor: '#1B1B1B', alignItems: 'center', justifyContent: 'center', gap: 15, width: '80%', marginTop: 55, alignSelf: 'center', height:200, borderRadius:20 }}>
               
 
+
+              <View style={{ flexDirection:'row' }}>
+                <View style={{ textAlign:'center', width:'60%'}}>
+
+                <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600, }}>Horário</Text>
+                <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Serviço</Text>
+                <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Data</Text>
+                <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600 }}>Func</Text>
+                <Text style={{ color: '#FD7E14', fontSize: 18, fontWeight: 600, marginRight:15, }}>Status</Text>
+
+                </View>
+
+
+
+                <View style={{ textAlign:'start', width:'80%', justifyContent:'space-around' }}>
+                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 600 }}>{format(combineDateAndTime(agendamento.dataAgendamento, agendamento.horarioInicial), 'HH:mm')}</Text>
+                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 600 }}>{agendamento.servico.nomeServico}</Text>
+                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 600 }}>{format(new Date(agendamento.dataAgendamento), 'yyyy/MM/dd')}</Text>
+                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 600 }}>{agendamento.funcionario.nomeFuncionario} {agendamento.funcionario.sobrenomeFuncionario}</Text>
+                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 600 }}>{agendamento.statusServico}</Text>
+                </View>
+              </View>
+              {agendamento.statusServico !== 'CANCELADO' &&(
               <CustomButton
                 title="CANCELAR"
                 onPress={() => handleCancel(agendamento.id)}
@@ -143,8 +150,34 @@ export default function Perfil({ navigation, route }) {
                   fontWeight: 600
                 }}
               />
+              )}
             </View>
           ))}
+
+<Modal isVisible={okModalVisible} onBackButtonPress={() => setOkModalVisible(false)} >
+ 
+ <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 10, alignItems: 'center', }}>
+   <Ionicons name="checkmark-circle-outline" size={62} color="green" />
+   <Text style={{ fontSize: 22, fontWeight: 700, marginBottom: 10, color: 'green' }}>Sucesso!</Text>
+   <Text style={{ fontSize: 18, fontWeight: 500, marginBottom: 20, textAlign: 'center', color: '#1B1B1B', }}>Agendamento confirmado, nos vemos em breve.</Text>
+   <TouchableOpacity onPress={() => setOkModalVisible(false)}>
+     <Text style={{ fontSize: 18, color: '#3498db' }} onPress={() => navigation.navigate('Agenda')}>OK</Text>
+   </TouchableOpacity>
+ </View>
+</Modal>
+
+<Modal isVisible={errorModalVisible} onBackButtonPress={() => setErrorModalVisible(false)} >
+
+ <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 10, alignItems: 'center', }}>
+ <MaterialIcons name="error-outline" size={62} color="red" />
+   <Text style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 10, color: 'red' }}>Entendido!</Text>
+   <Text style={{ fontSize: 18, fontWeight: 500, marginBottom: 20, textAlign: 'center', color: '#333', }}>Agendamento cancelado, esperamos que possamos fornecer nossos serviços em algum momento.</Text>
+   <TouchableOpacity onPress={() => setErrorModalVisible(false)}>
+     <Text style={{ fontSize: 18, color: '#3498db' }}>OK</Text>
+   </TouchableOpacity>
+ </View>
+ 
+</Modal>
 
           <CustomButton
             title="AGENDAR"

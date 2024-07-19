@@ -1,4 +1,4 @@
-
+ 
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Image, ImageBackground, Dimensions } from 'react-native';
 import Modal from "react-native-modal";
@@ -7,37 +7,37 @@ import Carousel from 'react-native-snap-carousel';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
-
+ 
 const CustomButton = ({ onPress, title, buttonStyle, textStyle }) => (
   <TouchableOpacity onPress={onPress} style={[estilo.botao, buttonStyle]}>
     <Text style={[estilo.textoBotao, textStyle]}>{title}</Text>
   </TouchableOpacity>
 );
-
+ 
 const fnd2 = '../../fotos/fnd2horario.jpg';
-
+ 
 const { width: screenWidth } = Dimensions.get('window');
-
-
-
-
-
-
+ 
+ 
+ 
+ 
+ 
+ 
 export default function Agendamento({ navigation, route }) {
-
+ 
   const [errorModalVisible, setErrorModalVisible] = useState(false);
   const [okModalVisible, setOkModalVisible] = useState(false);
-
+ 
   const { idServico, nomeServico, descricaoServico, idCliente, dataSelecionada, duracaoServico } = route.params || {};
-
+ 
   const [nomeCliente, setNomeCliente] = useState("");
   const [servicos, setServicos] = useState([]);
   const [funcionarios, setFuncionarios] = useState([]);
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
   const [horarioSelecionado, setHorarioSelecionado] = useState(null);
   const [funcionarioSelecionado, funcionarioSelecionadoId] = useState(null);
-
-
+ 
+ 
   useEffect(() => {
     const fetchFuncionarios = async () => {
       try {
@@ -54,7 +54,7 @@ export default function Agendamento({ navigation, route }) {
     };
     fetchFuncionarios();
   }, []);
-
+ 
   const fetchHorarios = async (funcionarioId) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -75,17 +75,17 @@ export default function Agendamento({ navigation, route }) {
       console.log('Erro ao buscar horários disponíveis:', error);
     }
   };
-
+ 
   const handleFinalizar = async () => {
     const dadosAgendamento = {
-      funcionario_id: funcionarioSelecionado, 
+      funcionario_id: funcionarioSelecionado,
       cliente_id: idCliente,
       servico_id: idServico,
       horario_id: horarioSelecionado.horario_id,
       dataAgendamento: dataSelecionada,
-      horarioSelecionado: horarioSelecionado.horarios, 
+      horarioSelecionado: horarioSelecionado.horarios,
     };
-  
+ 
     try {
       const resultado = await agendarServico(dadosAgendamento);
      
@@ -96,8 +96,8 @@ export default function Agendamento({ navigation, route }) {
       setErrorModalVisible(true)
     }
   };
-  
-
+ 
+ 
   const agendarServico = async (dadosAgendamento) => {
   try {
     const token = await AsyncStorage.getItem('userToken');
@@ -115,12 +115,12 @@ export default function Agendamento({ navigation, route }) {
     throw error;
   }
 };
-
+ 
   const _renderItem = ({ item }) => {
-    const fotoURL = item.fotoFuncionario === "SEM IMAGEM" 
+    const fotoURL = item.fotoFuncionario === "SEM IMAGEM"
       ? 'http://codegroupdev.com.br/royalbarber/royalbarber/public/images/royalBarberFunc.png'
       : `http://codegroupdev.com.br/royalbarber/royalbarber/storage/app/public/${item.fotoFuncionario}`;
-
+ 
     return (
       <TouchableOpacity>
         <View style={{ marginTop: 60, marginBottom: 35 }}>
@@ -139,9 +139,9 @@ export default function Agendamento({ navigation, route }) {
       </TouchableOpacity>
     );
   };
-
+ 
   const handleFuncionarioSelect = (funcionarioSelecionadoId);
-
+ 
   const renderHorarios = () => {
     return (
       <View style={styles.horariosContainer}>
@@ -155,24 +155,24 @@ export default function Agendamento({ navigation, route }) {
       </View>
     );
   };
-
+ 
   const handleHorarioSelect = (horario) => {
     console.log('Horário selecionado:', horario);
     setHorarioSelecionado(horario);
     console.log(handleFuncionarioSelect);
   };
-
-  
+ 
+ 
   return (
-
-    
+ 
+   
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: 'white' }}>
       <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
-        
+       
         <ImageBackground source={require(fnd2)} style={{ height: 600, alignItems: 'center', width: 400 }}>
           <Image source={require('../../fotos/tesoura.svg')} style={{ marginTop: 15 }} />
           <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'white' }}>BARBEIROS</Text>
-
+ 
           <Carousel
             data={funcionarios}
             renderItem={_renderItem}
@@ -181,12 +181,12 @@ export default function Agendamento({ navigation, route }) {
             layout={'default'}
             firstItem={1}
           />
-
-          
+ 
+         
         </ImageBackground>
-
+ 
         {horariosDisponiveis.length > 0 && renderHorarios()}
-
+ 
         {horarioSelecionado && (
   <View style={styles.buttonContainer}>
     <CustomButton
@@ -210,8 +210,8 @@ export default function Agendamento({ navigation, route }) {
     />
   </View>
 )}
-
-
+ 
+ 
         <View style={{
           backgroundColor: 'black',
           borderTopEndRadius: 24,
@@ -223,36 +223,36 @@ export default function Agendamento({ navigation, route }) {
           justifyContent: 'space-evenly'
         }}>
         </View>
-
+ 
         <Modal isVisible={okModalVisible} onBackButtonPress={() => setOkModalVisible(false)} >
-
+ 
           <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 10, alignItems: 'center', }}>
             <Ionicons name="checkmark-circle-outline" size={62} color="green" />
             <Text style={{ fontSize: 22, fontWeight: 700, marginBottom: 10, color: 'green' }}>Sucesso!</Text>
             <Text style={{ fontSize: 18, fontWeight: 500, marginBottom: 20, textAlign: 'center', color: '#1B1B1B', }}>Agendamento concluído, verifique sua agenda.</Text>
             <TouchableOpacity onPress={() => setOkModalVisible(false)}>
-              <Text style={{ fontSize: 18, color: '#3498db' }} onPress={() => navigation.navigate('Agenda')}>OK</Text>
+              <Text style={{ fontSize: 18, color: '#3498db' }}>OK</Text>
             </TouchableOpacity>
           </View>
         </Modal>
-
+ 
         <Modal isVisible={errorModalVisible} onBackButtonPress={() => setErrorModalVisible(false)} >
-
+ 
           <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 10, alignItems: 'center', }}>
           <MaterialIcons name="error-outline" size={62} color="red" />
             <Text style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 10, color: 'red' }}>Erro!</Text>
             <Text style={{ fontSize: 18, fontWeight: 500, marginBottom: 20, textAlign: 'center', color: '#333', }}>Houve um erro inesperado, entre em contato com o suporte.</Text>
             <TouchableOpacity onPress={() => setOkModalVisible(false)}>
-              <Text style={{ fontSize: 18, color: '#3498db' }} onPress={() => navigation.navigate('Inicio', { idCliente })} >OK</Text>
+              <Text style={{ fontSize: 18, color: '#3498db' }}>OK</Text>
             </TouchableOpacity>
           </View>
         </Modal>
-
+ 
       </SafeAreaView>
     </ScrollView>
   );
 }
-
+ 
 const styles = StyleSheet.create({
   horariosContainer: {
     flexDirection: 'row', // Ajuste a direção do layout para horizontal
@@ -276,9 +276,10 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Centraliza horizontalmente
     justifyContent: 'center', // Centraliza verticalmente
   },
-
+ 
   horarioSelecionado: {
     borderRadius: 10,
     backgroundColor: '#ff6d24'
   },
 });
+ 
